@@ -1,6 +1,10 @@
 from martypy import Marty
+from martypy import MartyConnectException
 
-IP = input("Enter the IP address of your Marty: ")
-
-my_marty = Marty("wifi", IP)
-my_marty.dance()
+def connect(marty: Marty, ip: str):
+    try:
+        my_marty = Marty("wifi", ip)
+        my_marty.get_ready()
+    
+    except MartyConnectException:
+        print("Error while connecting to Marty. Couldn't connect.")
