@@ -1,6 +1,6 @@
 import martypy
 
-Marti = Marty("wifi","192.168.1.1")
+Marti = Marty("wifi","192.168.0.104")
 
 if Marti.foot_on_ground(nomcapteur):
     Marti.walk(3)
