@@ -9,4 +9,6 @@ print(color)
 IR=my_marty.get_ground_sensor_reading('RightIRFoot')
 print(IR)
 
+
+
 my_marty.close()
