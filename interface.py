@@ -7,8 +7,16 @@ import sys
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.resize(800, 350)
+        self.resize(950, 350)
         self.setWindowTitle("Mr Marty")
+
+        #Se connecter
+        button_connect = QPushButton("Se connecter", self)
+        button_connect.setGeometry(900, 400, 200, 50)
+        button_connect.setStyleSheet('QPushButton {background-color: #63FFAF; color: black; }')
+        button_connect.move(60, 280)
+
+
 
         #Les boutons de marche
         button_avancer = QPushButton("Avancer", self)
@@ -51,17 +59,45 @@ class MainWindow(QWidget):
         slider.setSingleStep(5)
         slider.setPageStep(10)
         slider.setTickPosition(QSlider.TickPosition.TicksAbove)
-        slider.setGeometry(900, 400, 400, 30)
+        slider.setGeometry(900, 400, 543, 30)
         current_value = slider.value()
 
-        slider.move(340,60)
+        slider.move(350,70)
 
         #Mouvement
-        button_avancer = QPushButton("Avancer", self)
-        button_avancer.setGeometry(900, 400, 100, 50)
-        button_avancer.move(380, 120)
+            #Ligne_1
+        button_avancer = QPushButton("Get ready", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(350, 120)
 
+        button_avancer = QPushButton("Celebrate", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(490, 120)
 
+        button_avancer = QPushButton("Wave left", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(630, 120)
+
+        button_avancer = QPushButton("Wave right", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(770, 120)
+
+            #Ligne_2
+        button_avancer = QPushButton("Dance", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(350, 200)
+
+        button_avancer = QPushButton("wiggle eyes", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(490, 200)
+
+        button_avancer = QPushButton("Kick left", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(630, 200)
+
+        button_avancer = QPushButton("Kick right", self)
+        button_avancer.setGeometry(900, 400, 130, 70)
+        button_avancer.move(770, 200)
 
 
 app = QApplication(sys.argv)
