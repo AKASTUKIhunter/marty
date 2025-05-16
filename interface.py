@@ -34,7 +34,22 @@ class MainWindow(QWidget):
         button_reculer.setGeometry(900, 400, 100, 50)
         button_reculer.move(10, 150)
 
+        slider = QSlider(Qt.Orientation.Horizontal, self)
+        slider.setRange(0, 100)
+        slider.setValue(50)
+        slider.setSingleStep(5)
+        slider.setPageStep(10)
+        slider.setTickPosition(QSlider.TickPosition.TicksAbove)
+        slider.setGeometry(900, 400, 400, 30)
+
         
+
+        current_value = slider.value()
+
+        slider.move(340,50)
+
+
+
 
 app = QApplication(sys.argv)
 window = MainWindow()
