@@ -12,28 +12,31 @@ calibration={
 }
 marge=4
 
+
+
+
 def get_couleur(color,IR):
     c="vert"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="rose"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="bleu"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="rouge"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="bleu_f"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="jaune"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="noir"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
     c="sol"
-    if((color==calibration[c][0]+marge or color==calibration[c][0]-marge) and (color==calibration[c][1]+marge or color==calibration[c][1]-marge)):
+    if((color<=calibration[c][0]+marge and color==calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
