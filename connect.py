@@ -1,10 +1,15 @@
 from martypy import Marty
 from martypy import MartyConnectException
 
-def connect(marty: Marty, ip: str):
+def connect(ip: str):
     try:
-        my_marty = Marty("wifi", ip)
-        my_marty.get_ready()
+        marty = Marty("wifi", ip)
+        marty.get_ready()
+        return marty
     
-    except MartyConnectException:
-        print("Error while connecting to Marty. Couldn't connect.")
+    except MartyConnectException as e:
+        print(f"Error while connecting to Marty at {ip}: {e}")
+        raise e
+    except Exception as e:
+        print(f"Unexpected error while connecting to Marty at {ip}: {e}")
+        raise e
