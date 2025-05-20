@@ -18,7 +18,7 @@ class MainWindow(QWidget):
         # Les boutons de marche
         button_avancer = QPushButton("", self)
         button_avancer.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
-        button_avancer.setIcon(QIcon('./image/arrow-up.png')) 
+        button_avancer.setIcon(QIcon('/image/arrow-up.png')) 
         button_avancer.setIconSize(QSize(40, 40))
         button_avancer.setGeometry(110, 100, 100, 50)
 
