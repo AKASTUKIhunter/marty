@@ -21,38 +21,38 @@ marge=4
 #On vérifie pour chaque couple couleure, IR si les valeures correspondent à celle d'une couleure calibré
 def get_couleur(color,IR):
     c="vert"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge:
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     c="rose"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge :
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     c="bleu"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge :
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     c="rouge"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge:
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     c="bleu_f"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge:
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     c="jaune"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge:
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     c="noir"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge:
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     
     c="sol"
-    if color<=calibration[c][0]+marge and color>=calibration[c][0]-marge:
+    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
 
 #on récupère la couleure 
 color=Marti.get_ground_sensor_reading('LeftColorSensor')
-print(color)
+print("Capteur couleure :",color)
 
 #on récupère les IR 
 IR=Marti.get_ground_sensor_reading('RightIRFoot')
-print(IR)
+print("Capteur IfraRouge :",IR)
 
 
 #on éffectue une dance si on est sur une case rose
