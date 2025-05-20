@@ -1,19 +1,17 @@
 from martypy import Marty
 
-martin = Marty("wifi","192.168.0.104")
+martin = Marty("wifi","192.168.0.103")
+
+#Se met tout droit
+martin.get_ready()
 
 
-martin.stand_straight()
-#martin.arms(90,90,1000)
-#martin.eyes('angry',1000)
-
-'''nb_pas = 2
-pas_demande = 3
-if nb_pas<pas_demande:
-    martin.walk(1)
-    martin.stop()
-'''
 #Traverse un papier de couleur
-martin.walk(10,'auto',0,15,1500,None)
+#martin.walk(10,'auto',0,15,1500,None)
+
+martin.walk(1,"left",20,30,2000,None)
+
+martin.walk(1,'right',10,30,1500,None)
+
 
 martin.close()
