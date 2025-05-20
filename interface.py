@@ -1,8 +1,11 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import QIcon, QFont
-
 import sys
+
+
+
+import connect
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -10,6 +13,7 @@ class MainWindow(QWidget):
         self.resize(950, 350)
         self.setWindowTitle("Mr Marty")
 
+        #IP Input
         input_field = QLineEdit(self)
         input_field.setPlaceholderText("IP address")
         input_field.setGeometry(20,300,200,30)
@@ -18,10 +22,17 @@ class MainWindow(QWidget):
         button_connect = QPushButton("Connect", self)
         button_connect.setStyleSheet('QPushButton {background-color: #63FFAF; color: black;  font-size: 13px;}')
         button_connect.setGeometry(230, 300, 150, 30)
+        
+        
 
         button_disconnect = QPushButton("Disconnect", self)
         button_disconnect.setStyleSheet('QPushButton {background-color: red; color: black;  font-size: 13px;}')
         button_disconnect.setGeometry(400, 300, 150, 30)
+
+
+        button_connect.clicked.connect(lambda: connect.connect(input_field.text()))
+
+        
         
 
         # Les boutons de marche
