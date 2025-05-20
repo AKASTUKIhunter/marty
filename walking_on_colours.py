@@ -1,16 +1,18 @@
 from martypy import Marty
 
-Marti = Marty("wifi","192.168.0.104")
+#Connexion
+Marti = Marty("wifi","192.168.0.103")
 Marti.stand_straight()
 
-#while(Marti.get_ground_sensor_reading('LeftColorSensor') = 65):
-
+#Récupère les données du color sensor
 color=Marti.get_ground_sensor_reading('LeftColorSensor')
 print(color)
 
+#Récupère les données du capteur IR
 IR=Marti.get_ground_sensor_reading('RightIRFoot')
 print(IR)
 
+#get_couleur à récupérer chez Christ
 if get_couleur(color,IR) == "rose":
     Marti.dance()
 else:
@@ -21,5 +23,5 @@ else:
 
 
 Marti.close()
-#Marti.walk(20,'auto',0,15,1000,None)
+
 
