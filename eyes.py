@@ -4,7 +4,7 @@ marty = Marty("wifi", "192.168.0.103")
 
 #la string mood peut avoir 5 valeurs:
 #'angry','excited','wiggle','normal','wide'
-
+#Fonction pour bouger les yeux selon la mood
 def moveEyes(mood):
     marty.eyes(mood,1000)
 

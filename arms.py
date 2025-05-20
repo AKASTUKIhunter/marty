@@ -4,9 +4,7 @@ marty = Marty("wifi", "192.168.0.103")
 marty.stand_straight()
 
 #Fonction pour bouger les bras
-#Les variables input1_bras_gauche, input2_bras_droit
-#prennent des int de -100 à 100
-
+#Les variables input1_bras_gauche, input2_bras_droit prennent des int de -100 à 100
 def moveArms(input1_bras_gauche, input2_bras_droit):
     marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
 
