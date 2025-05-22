@@ -1,20 +1,36 @@
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
+from gc import enable
+from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton
+from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont
+import movement
 
-import sys
+
+from connect import MartyConnection
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(950, 350)
         self.setWindowTitle("Mr Marty")
+        self.martyConnector = MartyConnection()
+
+        #IP Input
+        input_field = QLineEdit(self)
+        input_field.setPlaceholderText("IP address")
+        input_field.setGeometry(20,300,200,30)
 
         # Bouton Se connecter
         button_connect = QPushButton("Connect", self)
-        button_connect.setStyleSheet('QPushButton {background-color: #63FFAF; color: black;  font-size: 16px;}')
-        button_connect.setGeometry(60, 280, 200, 50)
-        
+        button_connect.setStyleSheet('QPushButton {background-color: #63FFAF; color: black;  font-size: 13px;}')
+        button_connect.setGeometry(230, 300, 150, 30)
+
+        button_connect.clicked.connect(lambda: self.martyConnector.connect(input_field.text()))
+
+        button_disconnect = QPushButton("Disconnect", self)
+        button_disconnect.setStyleSheet('QPushButton {background-color: red; color: black;  font-size: 13px;}')
+        button_disconnect.setGeometry(400, 300, 150, 30)
+
+        button_disconnect.clicked.connect(lambda: self.martyConnector.marty.close())
 
         # Les boutons de marche
         button_avancer = QPushButton("", self)
@@ -22,6 +38,8 @@ class MainWindow(QWidget):
         button_avancer.setIcon(QIcon('./image/arrow-up.png')) 
         button_avancer.setIconSize(QSize(40, 40))
         button_avancer.setGeometry(110, 100, 100, 50)
+
+        button_avancer.clicked.connect(lambda: movement.walk(5, self.martyConnector.marty))
 
         button_v_droite = QPushButton("", self)
         button_v_droite.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -41,11 +59,15 @@ class MainWindow(QWidget):
         button_droite.setIconSize(QSize(40, 40))
         button_droite.setGeometry(210, 150, 100, 50)
 
+        button_droite.clicked.connect(lambda: movement.turn("right", self.martyConnector.marty))
+
         button_reculer = QPushButton("", self)
         button_reculer.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_reculer.setIcon(QIcon('./image/arrow-down.png')) 
         button_reculer.setIconSize(QSize(40, 40))
         button_reculer.setGeometry(110, 200, 100, 50)
+
+        button_reculer.clicked.connect(lambda: movement.walk_backwards(5, self.martyConnector.marty))
 
         button_gauche = QPushButton("", self)
         button_gauche.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -53,15 +75,23 @@ class MainWindow(QWidget):
         button_gauche.setIconSize(QSize(40, 40))
         button_gauche.setGeometry(10, 150, 100, 50)
 
+        button_gauche.clicked.connect(lambda: movement.turn("left", self.martyConnector.marty))
+
         GUI_controller = QRadioButton('GUI', self)
         GUI_controller.setGeometry(55,45,50,50)
 
+        GUI_controller.toggled.connect(lambda: self.enable_buttons())
+
         GUI_controller = QRadioButton('Controller', self)
         GUI_controller.setGeometry(120,45,100,50)
+        
+        GUI_controller.toggled.connect(lambda: self.disable_buttons())
 
         GUI_controller = QRadioButton('Keyboard', self)
         GUI_controller.setGeometry(205,45,100,50)
 
+        GUI_controller.toggled.connect(lambda: self.disable_buttons())
+        
         Title = QLabel("Choose a controller", self)
         Title.setGeometry(100,15,500,50)
         font1 = QFont("Arial", 10)
@@ -146,7 +176,14 @@ class MainWindow(QWidget):
         button_kick_right.setIconSize(QSize(40, 40))
         button_kick_right.setGeometry(770, 200, 130, 70)
 
-app = QApplication(sys.argv)
-window = MainWindow()
-window.show()
-app.exec()
+    def disable_buttons(self):
+        # Disable all buttons except the connect and disconnect button
+        for button in self.findChildren(QPushButton):
+            if button.text() not in ["Connect", "Disconnect"]:
+                button.setEnabled(False)
+
+    def enable_buttons(self):
+        # Enable all buttons except the connect and disconnect button
+        for button in self.findChildren(QPushButton):
+            if button.text() not in ["Connect", "Disconnect"]:
+                button.setEnabled(True)
