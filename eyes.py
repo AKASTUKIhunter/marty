@@ -2,12 +2,10 @@ from martypy import Marty
 
 #la string mood peut avoir 5 valeurs:
 #'angry','excited','wiggle','normal','wide'
-def moveEyes(mood):
-    marty = Marty("wifi", "192.168.0.102")
+def moveEyes(mood: str, marty: Marty):
     try:
-
         marty.eyes(mood,1000)
-    except:
-        raise "no"
+    except Exception as e:
+        print(f"Error while trying to move eyes : {e}")
 
 #Changement des yeux en fonction de la mood choisie
