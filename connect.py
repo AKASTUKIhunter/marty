@@ -3,7 +3,6 @@ from martypy import MartyConnectException
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
 
-
 class MartyConnection:
     def __init__(self):
         self.ip: str
