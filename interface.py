@@ -161,6 +161,7 @@ class MainWindow(QWidget):
         button_wiggle_eyes.setIcon(QIcon('images/wiggle_eyes.png')) 
         button_wiggle_eyes.setIconSize(QSize(40, 40))
         button_wiggle_eyes.setGeometry(490, 200, 130, 70)
+        button_wiggle_eyes.clicked.connect(lambda: eyes.moveEyes('wiggle'))
 
         button_kick_left = QPushButton("Kick left", self)
         button_kick_left.setFont(font)

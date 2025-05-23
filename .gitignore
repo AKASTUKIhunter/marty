@@ -174,4 +174,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-main.py
+eyes.py
+connect.py
