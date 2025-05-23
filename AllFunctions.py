@@ -55,6 +55,16 @@ def detect_obs(marty):
             print("Marti est safe")
             marty.eyes("wiggle", 1000)
 
+#Salue à Gauche
+def waveLeft(marty):
+    moveArms(100,0)
+    moveArms(50,0)
+
+#Salue à Droite
+def waveRight(marty):
+    moveArms(0,100)
+    moveArms(0,50)
+
 #Kick Left
 def kickLeft(marty):
     marty.kick('left',0,2000,None)
