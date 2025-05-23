@@ -6,6 +6,7 @@ import sys
 
 
 import connect
+import eyes
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -29,7 +30,8 @@ class MainWindow(QWidget):
         button_disconnect.setStyleSheet('QPushButton {background-color: red; color: black;  font-size: 13px;}')
         button_disconnect.setGeometry(400, 300, 150, 30)
 
-
+        
+        #boutton de connection 
         button_connect.clicked.connect(lambda: connect.connect(input_field.text()))
 
         
@@ -150,6 +152,7 @@ class MainWindow(QWidget):
         button_wiggle_eyes.setIcon(QIcon('images/wiggle_eyes.png')) 
         button_wiggle_eyes.setIconSize(QSize(40, 40))
         button_wiggle_eyes.setGeometry(490, 200, 130, 70)
+        button_wiggle_eyes.clicked.connect(lambda: eyes.moveEyes('wiggle'))
 
         button_kick_left = QPushButton("Kick left", self)
         button_kick_left.setFont(font)
