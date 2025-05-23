@@ -1,7 +1,8 @@
 from gc import enable
-from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton
+from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton,QTextEdit, QSizePolicy
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtGui import QIcon, QFont, QColor, QPalette
 import movement
 
 
@@ -11,25 +12,44 @@ import eyes
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.resize(950, 350)
+        self.resize(950, 500)
         self.setWindowTitle("Mr Marty")
         self.martyConnector = MartyConnection()
+
+        #Commands text field
+        text_field = QTextEdit(self)
+        text_field.setPlaceholderText("Enter your command")
+        text_field.setSizePolicy(QSizePolicy.Policy.Fixed, 
+                                 QSizePolicy.Policy.Expanding)
+        palette = text_field.palette()
+        palette.setColor(QPalette.ColorRole.Text, QColor("#48DF0C")) 
+        palette.setColor(QPalette.ColorRole.PlaceholderText, QColor("#48DF0C"))  
+        text_field.setPalette(palette)
+        text_field.setGeometry(350,300,550,120)
+        text_field.setTextColor(QColor("#48DF0C"))
+        text_field.setStyleSheet("background-color: rgb(54, 54, 54);")
+
+        # Execute button
+        button_execute = QPushButton("Execute  >", self)
+        button_execute.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
+        button_execute.setGeometry(350, 430, 135, 30)
 
         #IP Input
         input_field = QLineEdit(self)
         input_field.setPlaceholderText("IP address")
-        input_field.setGeometry(20,300,200,30)
+        input_field.setGeometry(20,300,290,30)
 
-        # Bouton Se connecter
+        # Connecting button
         button_connect = QPushButton("Connect", self)
         button_connect.setStyleSheet('QPushButton {background-color: #63FFAF; color: black;  font-size: 13px;}')
-        button_connect.setGeometry(230, 300, 150, 30)
+        button_connect.setGeometry(20, 350, 135, 30)
 
         button_connect.clicked.connect(lambda: self.martyConnector.connect(input_field.text()))
 
+        # Disconnection button
         button_disconnect = QPushButton("Disconnect", self)
         button_disconnect.setStyleSheet('QPushButton {background-color: red; color: black;  font-size: 13px;}')
-        button_disconnect.setGeometry(400, 300, 150, 30)
+        button_disconnect.setGeometry(170, 350, 135, 30)
 
         button_disconnect.clicked.connect(lambda: self.martyConnector.marty.close())
 
@@ -122,28 +142,28 @@ class MainWindow(QWidget):
         button_get_ready = QPushButton("Get ready", self)
         font = QFont("Arial", 12, QFont.Weight.Bold)
         button_get_ready.setFont(font)
-        button_get_ready.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_get_ready.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_get_ready.setIcon(QIcon('images/get_ready.png'))  
         button_get_ready.setIconSize(QSize(40, 40))
         button_get_ready.setGeometry(350, 120, 130, 70)
 
         button_celebrate = QPushButton("Celebrate", self)
         button_celebrate.setFont(font)
-        button_celebrate.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_celebrate.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_celebrate.setIcon(QIcon('images/celebrate.png'))  
         button_celebrate.setIconSize(QSize(40, 40))
         button_celebrate.setGeometry(490, 120, 130, 70)
 
         button_wave_left = QPushButton("Wave left", self)
         button_wave_left.setFont(font)
-        button_wave_left.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_wave_left.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_wave_left.setIcon(QIcon('images/wave_left.png')) 
         button_wave_left.setIconSize(QSize(40, 40))
         button_wave_left.setGeometry(630, 120, 130, 70)
 
         button_wave_right = QPushButton("Wave right", self)
         button_wave_right.setFont(font)
-        button_wave_right.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_wave_right.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_wave_right.setIcon(QIcon('images/wave_right.png'))  
         button_wave_right.setIconSize(QSize(40, 40))
         button_wave_right.setGeometry(770, 120, 130, 70)
@@ -151,14 +171,14 @@ class MainWindow(QWidget):
         # Mouvement - Ligne 2
         button_dance = QPushButton("Dance", self)
         button_dance.setFont(font)
-        button_dance.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_dance.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_dance.setIcon(QIcon('images/dance.png'))  
         button_dance.setIconSize(QSize(40, 40))
         button_dance.setGeometry(350, 200, 130, 70)
 
         button_wiggle_eyes = QPushButton("Wiggle eyes", self)
         button_wiggle_eyes.setFont(font)
-        button_wiggle_eyes.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_wiggle_eyes.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_wiggle_eyes.setIcon(QIcon('images/wiggle_eyes.png')) 
         button_wiggle_eyes.setIconSize(QSize(40, 40))
         button_wiggle_eyes.setGeometry(490, 200, 130, 70)
@@ -166,14 +186,14 @@ class MainWindow(QWidget):
 
         button_kick_left = QPushButton("Kick left", self)
         button_kick_left.setFont(font)
-        button_kick_left.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_kick_left.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_kick_left.setIcon(QIcon('images/kick_left.png'))  
         button_kick_left.setIconSize(QSize(40, 40))
         button_kick_left.setGeometry(630, 200, 130, 70)
 
         button_kick_right = QPushButton("Kick right", self)
         button_kick_right.setFont(font)
-        button_kick_right.setStyleSheet('QPushButton {background-color: #2AD0E2; color: black;}')
+        button_kick_right.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_kick_right.setIcon(QIcon('images/kick_right.png'))  
         button_kick_right.setIconSize(QSize(40, 40))
         button_kick_right.setGeometry(770, 200, 130, 70)
