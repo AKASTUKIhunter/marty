@@ -1,5 +1,4 @@
-from gc import enable
-from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton
+from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont
 import movement
@@ -13,8 +12,8 @@ class MainWindow(QWidget):
         super().__init__()
         self.resize(950, 350)
         self.setWindowTitle("Mr Marty")
-        self.martyConnector = MartyConnection()
 
+        self.martyConnector = MartyConnection()
         #IP Input
         input_field = QLineEdit(self)
         input_field.setPlaceholderText("IP address")
@@ -78,20 +77,29 @@ class MainWindow(QWidget):
 
         button_gauche.clicked.connect(lambda: movement.turn("left", self.martyConnector.marty))
 
+        self.group = QButtonGroup()
+        self.group.setExclusive(False)
+
         GUI_controller = QRadioButton('GUI', self)
         GUI_controller.setGeometry(55,45,50,50)
+        GUI_controller.setAutoExclusive(False)
+        self.group.addButton(GUI_controller)
 
         GUI_controller.toggled.connect(lambda: self.enable_buttons())
 
-        GUI_controller = QRadioButton('Controller', self)
-        GUI_controller.setGeometry(120,45,100,50)
+        self.XBOX_controller = QRadioButton('Controller', self)
+        self.XBOX_controller.setGeometry(120,45,100,50)
+        self.XBOX_controller.setAutoExclusive(False)
+        self.group.addButton(self.XBOX_controller)
         
-        GUI_controller.toggled.connect(lambda: self.disable_buttons())
+        self.XBOX_controller.toggled.connect(lambda: self.useController())
 
-        GUI_controller = QRadioButton('Keyboard', self)
-        GUI_controller.setGeometry(205,45,100,50)
+        self.KEYBOARD_controller = QRadioButton('Keyboard', self)
+        self.KEYBOARD_controller.setGeometry(205,45,100,50)
+        self.KEYBOARD_controller.setAutoExclusive(False)
+        self.group.addButton(self.KEYBOARD_controller)
 
-        GUI_controller.toggled.connect(lambda: self.disable_buttons())
+        self.KEYBOARD_controller.toggled.connect(lambda: self.useKeyboard())
         
         Title = QLabel("Choose a controller", self)
         Title.setGeometry(100,15,500,50)
@@ -162,7 +170,8 @@ class MainWindow(QWidget):
         button_wiggle_eyes.setIcon(QIcon('images/wiggle_eyes.png')) 
         button_wiggle_eyes.setIconSize(QSize(40, 40))
         button_wiggle_eyes.setGeometry(490, 200, 130, 70)
-        button_wiggle_eyes.clicked.connect(lambda: eyes.moveEyes('wiggle'))
+
+        button_wiggle_eyes.clicked.connect(lambda: eyes.moveEyes('wiggle', self.martyConnector.marty))
 
         button_kick_left = QPushButton("Kick left", self)
         button_kick_left.setFont(font)
@@ -183,9 +192,28 @@ class MainWindow(QWidget):
         for button in self.findChildren(QPushButton):
             if button.text() not in ["Connect", "Disconnect"]:
                 button.setEnabled(False)
+        for button in self.group.buttons():
+            # if button is not radioButton:
+            button.setEnabled(False)
 
     def enable_buttons(self):
         # Enable all buttons except the connect and disconnect button
         for button in self.findChildren(QPushButton):
             if button.text() not in ["Connect", "Disconnect"]:
                 button.setEnabled(True)
+
+    def uncheck_QRadio_buttons(self):
+        # Uncheck every other button in this group
+        for button in self.group.buttons():
+            # if button is not radioButton:
+                button.setChecked(False)
+
+    def useKeyboard(self):
+        self.uncheck_QRadio_buttons()
+        self.disable_buttons()
+        self.martyConnector.keyboard.start()
+
+    def useController(self):
+        self.disable_buttons()
+        self.martyConnector.controller.start()
+        self.uncheck_QRadio_buttons()
