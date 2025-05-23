@@ -1,3 +1,4 @@
+from shutil import move
 from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont
@@ -47,19 +48,23 @@ class MainWindow(QWidget):
         button_v_droite.setIconSize(QSize(40, 40))
         button_v_droite.setGeometry(210, 100, 100, 50)
 
+        button_v_droite.clicked.connect(lambda: movement.turn("right", self.martyConnector.marty))
+
         button_v_gauche = QPushButton("", self)
         button_v_gauche.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_v_gauche.setIcon(QIcon('./image/v-left.png'))  
         button_v_gauche.setIconSize(QSize(40, 40))
         button_v_gauche.setGeometry(10, 100, 100, 50)
 
+        button_v_droite.clicked.connect(lambda: movement.turn("left", self.martyConnector.marty))
+        
         button_droite = QPushButton("", self)
         button_droite.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
         button_droite.setIcon(QIcon('./image/arrow-right.png'))  
         button_droite.setIconSize(QSize(40, 40))
         button_droite.setGeometry(210, 150, 100, 50)
 
-        button_droite.clicked.connect(lambda: movement.turn("right", self.martyConnector.marty))
+        button_droite.clicked.connect(lambda: self.martyConnector.marty.sidestep("right"))
 
         button_reculer = QPushButton("", self)
         button_reculer.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -75,7 +80,7 @@ class MainWindow(QWidget):
         button_gauche.setIconSize(QSize(40, 40))
         button_gauche.setGeometry(10, 150, 100, 50)
 
-        button_gauche.clicked.connect(lambda: movement.turn("left", self.martyConnector.marty))
+        button_gauche.clicked.connect(lambda: self.martyConnector.marty.sidestep("left"))
 
         self.group = QButtonGroup()
         self.group.setExclusive(False)
