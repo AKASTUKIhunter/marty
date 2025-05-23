@@ -15,7 +15,7 @@ def walk_backwards(number_of_steps):
     marty.stand_straight()
 
 
-
+#Exemple de code test
 #Se met tout droit
 marty.get_ready()
 
