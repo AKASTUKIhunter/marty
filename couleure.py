@@ -1,21 +1,20 @@
 
 
-calibration={
-    "vert":[26,170],
-    "rose":[75,177],
-    "bleu":[40,179],
-    "rouge":[65,173],
-    "bleu_f":[18,159],
-    "jaune":[149,180],
-    "noir":[13,31],
-    "sol":[80,98],
-}
-marge=4
-
 
 
 
 def get_couleur(color,IR):
+    calibration={
+        "vert":[26,170],
+        "rose":[75,177],
+        "bleu":[40,179],
+        "rouge":[65,173],
+        "bleu_f":[18,159],
+        "jaune":[149,180],
+        "noir":[13,31],
+        "sol":[80,98],
+    }
+    marge=4
     c="vert"
     if((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (color<=calibration[c][1]+marge and color>=calibration[c][1]-marge)):
         return c
