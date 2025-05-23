@@ -47,35 +47,6 @@ class MartyConnection:
                     self.walk(1,"right", -angle, length_step,step_speed)
             self.stand_straight()
             
-            
-            
-        def lecture_dance():
-            
-            with open("dominance.dance", "r", encoding="utf-8") as file:
-                for line in file:
-                    nb_case=0
-                    direction =""
-                    for e in line:
-                        if e.isdigit():
-                            nb_case+=int(e)
-                        else:
-                            direction=e
-                            break  
-                    print("nombre de pas: ",nb_case," Direction du robot :",direction)
-                    
-                    if direction=="L":
-                        turn("left")
-                    elif direction=="R":
-                        turn("right")
-                    elif direction=="B": #2 fois à gauche pour le retourner à 180°
-                        turn("left")
-                        turn("left")
-                    else:
-                        self.stand_straight()
-                    
-                    length_step=10
-                    self.walk(nb_case*self.case,"auto", 0, length_step,self.speed)
-        
         def walk_backwards(number_of_steps):
             self.speed = 1000
             length_step = 15
@@ -111,9 +82,10 @@ class MartyConnection:
             battery_remaining = status['battRemainCapacityPercent']
             print("Batterie restante: ", battery_remaining, "%")
             
-        
-        def lecture_dance():
-            with open("dominance.dance", "r", encoding="utf-8") as file:
+        # Fonction qui lit et exécute les fichiers .dance
+        def lecture_dance(name):
+            name_file=name+".dance"
+            with open(name_file, "r", encoding="utf-8") as file:
                 for line in file:
                     case=0
                     direction =""
