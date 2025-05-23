@@ -1,10 +1,9 @@
 from martypy import Marty
 
-ip_address="192.168.0.102"
-marty = Marty("wifi",ip_address)
+
 
 #Fonction pour tourner à 90 selon le côté choisi (gauche/droite)
-def turn(side):
+def turn(marty,side):
     length_step = 8
     step_speed = 1500
     angle = 20
@@ -22,11 +21,11 @@ def turn(side):
 #la string mood peut avoir 5 valeurs:
 #'angry','excited','wiggle','normal','wide'
 #Fonction pour bouger les yeux selon la mood
-def moveEyes(mood):
+def moveEyes(marty,mood):
     marty.eyes(mood,1000)
 
 #Fonction moonwalk, prends en paramètre un nombre de pas à faire en moonwalk
-def walk_backwards(number_of_steps):
+def walk_backwards(marty,number_of_steps):
     step_speed = 1000
     length_step = 15
     for i in range(0,number_of_steps):
@@ -37,7 +36,7 @@ def walk_backwards(number_of_steps):
 
 #Fonction pour bouger les bras selon l'angle choisi
 #Les variables input1_bras_gauche, input2_bras_droit prennent des int de -100 à 100
-def moveArms(input1_bras_gauche, input2_bras_droit):
+def moveArms(marty,input1_bras_gauche, input2_bras_droit):
     marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
 
 # Fonction qui test si marty est sur le sol ou non
@@ -56,4 +55,16 @@ def detect_obs(marty):
             print("Marti est safe")
             marty.eyes("wiggle", 1000)
 
+#Kick Left
+def kickLeft(marty):
+    marty.kick('left',0,2000,None)
 
+#Kick Right
+def kickRight(marty):
+    marty.kick('right',0,2000,None)
+
+# Fonction de récupération du niveau de batterie
+def get_battery(marty):
+    status = marty.get_power_status()
+    battery_remaining = status['battRemainCapacityPercent']
+    print("Batterie restante: ", battery_remaining, "%")
