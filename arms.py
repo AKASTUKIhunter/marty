@@ -3,6 +3,16 @@ from martypy import Marty
 marty = Marty("wifi", "192.168.0.103")
 marty.stand_straight()
 
+#Salue à Gauche
+def waveLeft(marty):
+    moveArms(100,0)
+    moveArms(50,0)
+
+#Salue à Droite
+def waveRight(marty):
+    moveArms(0,100)
+    moveArms(0,50)
+
 #Fonction pour bouger les bras
 #Les variables input1_bras_gauche, input2_bras_droit prennent des int de -100 à 100
 def moveArms(input1_bras_gauche, input2_bras_droit):
