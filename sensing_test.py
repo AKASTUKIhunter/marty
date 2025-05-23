@@ -1,7 +1,7 @@
 from martypy import Marty
 
 #Connexion
-marty = Marty("wifi","192.168.0.104")
+marty = Marty("wifi","192.168.1.6")
 marty.stand_straight()
 print(marty.get_distance_sensor())
 
@@ -22,5 +22,5 @@ def detect_obs(marty):
         print("Marti est safe")
         marty.eyes("wiggle", 1000)
 
-
+detect_obs(marty)
 marty.close()

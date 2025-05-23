@@ -10,6 +10,7 @@ martin.get_ready()
 martin.walk(10,'auto',0,15,1500,None)
 
 #Dance !
+martin.dance()
 
 
 

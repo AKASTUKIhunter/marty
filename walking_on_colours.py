@@ -2,7 +2,7 @@ from martypy import Marty
 from couleure import get_couleur
 
 #Connexion
-Marti = Marty("wifi","192.168.0.103")
+Marti = Marty("wifi","192.168.1.6")
 Marti.stand_straight()
 
 #Récupère les données du color sensor
