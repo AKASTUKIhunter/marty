@@ -16,9 +16,40 @@ class MainWindow(QWidget):
         self.setWindowTitle("Mr Marty")
         self.martyConnector = MartyConnection()
 
+        def test():
+            commands_list=text_field.toPlainText().split("\n")
+            for command_elem in commands_list:
+                if command_elem =="wiggle eyes":
+                    eyes.moveEyes('wiggle',self.martyConnector.marty)
+                elif command_elem =="forward":
+                    movement.walk(2, self.martyConnector.marty)
+                elif command_elem =="backward":
+                    movement.walk_backwards(2, self.martyConnector.marty)
+                elif command_elem =="right":
+                    movement.turn("right", self.martyConnector.marty)
+                elif command_elem =="left":
+                    movement.turn("left", self.martyConnector.marty)
+                elif command_elem =="dance":
+                    self.martyConnector.marty.dance()
+                elif command_elem =="celebrate":
+                    self.martyConnector.marty.celebrate()
+                elif command_elem =="get ready":
+                    self.martyConnector.marty.get_ready()
+                else:
+                    eyes.moveEyes('wiggle',self.martyConnector.marty)
+
+
+
+                    
+        
+        
+
+
+        
+            
         #Commands text field
         text_field = QTextEdit(self)
-        text_field.setPlaceholderText("Enter your command")
+        text_field.setPlaceholderText("Enter your commands")
         text_field.setSizePolicy(QSizePolicy.Policy.Fixed, 
                                  QSizePolicy.Policy.Expanding)
         palette = text_field.palette()
@@ -28,11 +59,13 @@ class MainWindow(QWidget):
         text_field.setGeometry(350,300,550,120)
         text_field.setTextColor(QColor("#48DF0C"))
         text_field.setStyleSheet("background-color: rgb(54, 54, 54);")
+        
 
         # Execute button
         button_execute = QPushButton("Execute  >", self)
         button_execute.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
         button_execute.setGeometry(350, 430, 135, 30)
+        button_execute.clicked.connect(lambda: test())
 
         #IP Input
         input_field = QLineEdit(self)
@@ -60,7 +93,7 @@ class MainWindow(QWidget):
         button_avancer.setIconSize(QSize(40, 40))
         button_avancer.setGeometry(110, 100, 100, 50)
 
-        button_avancer.clicked.connect(lambda: movement.walk(5, self.martyConnector.marty))
+        button_avancer.clicked.connect(lambda: movement.walk(2, self.martyConnector.marty))
 
         button_v_droite = QPushButton("", self)
         button_v_droite.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -88,7 +121,7 @@ class MainWindow(QWidget):
         button_reculer.setIconSize(QSize(40, 40))
         button_reculer.setGeometry(110, 200, 100, 50)
 
-        button_reculer.clicked.connect(lambda: movement.walk_backwards(5, self.martyConnector.marty))
+        button_reculer.clicked.connect(lambda: movement.walk_backwards(2, self.martyConnector.marty))
 
         button_gauche = QPushButton("", self)
         button_gauche.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -146,6 +179,7 @@ class MainWindow(QWidget):
         button_get_ready.setIcon(QIcon('images/get_ready.png'))  
         button_get_ready.setIconSize(QSize(40, 40))
         button_get_ready.setGeometry(350, 120, 130, 70)
+        button_get_ready.clicked.connect(lambda: self.martyConnector.marty.get_ready())
 
         button_celebrate = QPushButton("Celebrate", self)
         button_celebrate.setFont(font)
@@ -153,6 +187,7 @@ class MainWindow(QWidget):
         button_celebrate.setIcon(QIcon('images/celebrate.png'))  
         button_celebrate.setIconSize(QSize(40, 40))
         button_celebrate.setGeometry(490, 120, 130, 70)
+        button_celebrate.clicked.connect(lambda: self.martyConnector.marty.celebrate())
 
         button_wave_left = QPushButton("Wave left", self)
         button_wave_left.setFont(font)
@@ -168,6 +203,7 @@ class MainWindow(QWidget):
         button_wave_right.setIconSize(QSize(40, 40))
         button_wave_right.setGeometry(770, 120, 130, 70)
 
+
         # Mouvement - Ligne 2
         button_dance = QPushButton("Dance", self)
         button_dance.setFont(font)
@@ -175,6 +211,7 @@ class MainWindow(QWidget):
         button_dance.setIcon(QIcon('images/dance.png'))  
         button_dance.setIconSize(QSize(40, 40))
         button_dance.setGeometry(350, 200, 130, 70)
+        button_dance.clicked.connect(lambda: self.martyConnector.marty.dance())
 
         button_wiggle_eyes = QPushButton("Wiggle eyes", self)
         button_wiggle_eyes.setFont(font)
@@ -182,7 +219,7 @@ class MainWindow(QWidget):
         button_wiggle_eyes.setIcon(QIcon('images/wiggle_eyes.png')) 
         button_wiggle_eyes.setIconSize(QSize(40, 40))
         button_wiggle_eyes.setGeometry(490, 200, 130, 70)
-        button_wiggle_eyes.clicked.connect(lambda: eyes.moveEyes('wiggle'))
+        button_wiggle_eyes.clicked.connect(lambda: eyes.moveEyes('wiggle',self.martyConnector.marty))
 
         button_kick_left = QPushButton("Kick left", self)
         button_kick_left.setFont(font)
