@@ -1,26 +1,30 @@
 from martypy import Marty
 
-marty = Marty("wifi", "192.168.0.103")
+marty = Marty("wifi", "192.168.1.6")
 marty.stand_straight()
 
 #Salue à Gauche
 def waveLeft(marty):
     moveArms(100,0)
     moveArms(50,0)
+    moveArms(100, 0)
+    moveArms(50, 0)
 
 #Salue à Droite
 def waveRight(marty):
-    moveArms(0,100)
-    moveArms(0,50)
+    moveArms(0, 100)
+    moveArms(0, 50)
+    moveArms(0, 100)
+    moveArms(0, 50)
 
 #Fonction pour bouger les bras
 #Les variables input1_bras_gauche, input2_bras_droit prennent des int de -100 à 100
 def moveArms(input1_bras_gauche, input2_bras_droit):
-    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,400,None)
 
 
 #Mouvement des bras selon l'input
-while(True):
+'''while(True):
 
     command_bras = int(input("Quel bras ? (left,right,both) \n"))
 
@@ -45,5 +49,9 @@ while(True):
     elif (command_bras or command_mouv) == "exit":
         break
         marty.close()
-
-
+'''
+#Exemple de Code avec WaveRight et WaveLeft
+marty.get_ready()
+waveLeft(marty)
+waveRight(marty)
+marty.close()
