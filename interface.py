@@ -6,6 +6,7 @@ import movement
 
 
 from connect import MartyConnection
+import eyes
 
 class MainWindow(QWidget):
     def __init__(self):
