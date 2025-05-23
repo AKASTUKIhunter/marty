@@ -4,8 +4,8 @@ def turn(side, marty):
     angle = 20
 
     if side == "left":
-        marty.walk(1, "right", -angle, length_step, step_speed)
-        marty.walk(1, "left", -angle, length_step, step_speed)
+        marty.walk(1, "right", angle, length_step, step_speed)
+        marty.walk(1, "left", angle, length_step, step_speed)
     elif side == "right":
         marty.walk(1, "left", -angle, length_step, step_speed)
         marty.walk(1, "right", -angle, length_step, step_speed)

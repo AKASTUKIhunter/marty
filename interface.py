@@ -22,9 +22,9 @@ class MainWindow(QWidget):
                 if command_elem =="wiggle eyes":
                     eyes.moveEyes('wiggle',self.martyConnector.marty)
                 elif command_elem =="forward":
-                    movement.walk(2, self.martyConnector.marty)
+                    movement.walk(1, self.martyConnector.marty)
                 elif command_elem =="backward":
-                    movement.walk_backwards(2, self.martyConnector.marty)
+                    movement.walk_backwards(1, self.martyConnector.marty)
                 elif command_elem =="right":
                     movement.turn("right", self.martyConnector.marty)
                 elif command_elem =="left":
@@ -36,7 +36,7 @@ class MainWindow(QWidget):
                 elif command_elem =="get ready":
                     self.martyConnector.marty.get_ready()
                 else:
-                    eyes.moveEyes('wiggle',self.martyConnector.marty)
+                    eyes.moveEyes('angry',self.martyConnector.marty)
 
 
 
@@ -93,7 +93,7 @@ class MainWindow(QWidget):
         button_avancer.setIconSize(QSize(40, 40))
         button_avancer.setGeometry(110, 100, 100, 50)
 
-        button_avancer.clicked.connect(lambda: movement.walk(2, self.martyConnector.marty))
+        button_avancer.clicked.connect(lambda: movement.walk(1, self.martyConnector.marty))
 
         button_v_droite = QPushButton("", self)
         button_v_droite.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -121,7 +121,7 @@ class MainWindow(QWidget):
         button_reculer.setIconSize(QSize(40, 40))
         button_reculer.setGeometry(110, 200, 100, 50)
 
-        button_reculer.clicked.connect(lambda: movement.walk_backwards(2, self.martyConnector.marty))
+        button_reculer.clicked.connect(lambda: movement.walk_backwards(1, self.martyConnector.marty))
 
         button_gauche = QPushButton("", self)
         button_gauche.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -202,6 +202,7 @@ class MainWindow(QWidget):
         button_wave_right.setIcon(QIcon('images/wave_right.png'))  
         button_wave_right.setIconSize(QSize(40, 40))
         button_wave_right.setGeometry(770, 120, 130, 70)
+        ##button_wave_right.clicked.connect(lambda: movement.moveArms(50,70,self.martyConnector.marty))
 
 
         # Mouvement - Ligne 2
