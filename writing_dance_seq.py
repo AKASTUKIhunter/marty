@@ -10,6 +10,6 @@ def Addline(script, nb_steps, direct):
     script.writelines(line)
 
 
+#test
 fichier = CreateDanceScript()
-
 Addline(fichier, "3","U")
