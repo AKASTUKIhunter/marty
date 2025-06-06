@@ -37,4 +37,4 @@ def get_couleur(color,IR):
     c="sol"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    
+
