@@ -1,6 +1,3 @@
-import connect
-import useController
-import useKeyboard
 import interface
 import sys
 from PyQt6.QtWidgets import QApplication

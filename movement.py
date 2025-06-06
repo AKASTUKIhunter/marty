@@ -41,3 +41,4 @@ def walk(number_of_steps, marty):
         marty.walk(1, "left", 0, length_step, step_speed)
         marty.walk(1, "right", 0, length_step, step_speed)
     marty.stand_straight()
+    

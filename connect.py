@@ -1,7 +1,12 @@
 from martypy import Marty
 from martypy import MartyConnectException
+from colorDetection import get_color
+import colorDetection
+from feelScraper import FeelScraper
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
+from eyes import moveEyes
+from PyQt6.QtWidgets import QPushButton
 
 class MartyConnection:
     def __init__(self):
@@ -11,6 +16,8 @@ class MartyConnection:
         self.keyboard: KeyboardControl
         self.color: str
         self.speed: int
+        self.feelScraper: FeelScraper
+        self.calibration = colorDetection.calibration
 
         self.case: int  # le nombre de pas nécéssaire pour une case
 
@@ -29,6 +36,15 @@ class MartyConnection:
         except Exception as e:
             print(f"Unexpected error while connecting to Marty at {ip}: {e}")
 
+    def walk(self, number_of_steps: int, marty):
+        step_speed = 1000
+        length_step = 15
+        for i in range(0, number_of_steps):
+            marty.walk(1, "left", 0, length_step, step_speed)
+            marty.walk(1, "right", 0, length_step, step_speed)
+        marty.stand_straight()
+        self.feel()
+    
     def turn(self, side):
         self.marty.stand_straight()
         angle = 20
@@ -55,6 +71,7 @@ class MartyConnection:
             self.marty.walk(1, "left", 0, -length_step, speed)
             self.marty.walk(1, "right", 0, -length_step, speed)
         self.marty.stand_straight()
+        self.feel()
 
     def moveArms(self, input1_bras_gauche, input2_bras_droit):
         self.marty.arms(input1_bras_gauche, input2_bras_droit, 1000, None)
@@ -109,3 +126,39 @@ class MartyConnection:
                 length_step = 10
                 speed = 1000
                 self.marty.walk(nb_pas * case, "auto", 0, length_step, speed)
+
+    
+    def feel(self):
+        color = self.marty.get_ground_sensor_reading('LeftColorSensor')
+
+        #Récupère les données du capteur IR
+        ir = self.marty.get_ground_sensor_reading('RightIRFoot')
+
+        detected_color = get_color(color, ir)
+
+        feelscraper = FeelScraper("real.feels")
+        
+        feels = feelscraper.feels
+        
+        print(color, ir, detected_color, feels)
+        if detected_color in feels:
+            mood = feels[color]['mood']
+            moveEyes(mood, self.marty)
+
+    def sidestep(self, side):
+        self.marty.sidestep(side)
+        self.feel()
+
+    def calibrateColors(self, button: QPushButton):
+        colors = ["green", "pink", "cyan", "red", "blue", "yellow", "black", "ground"]
+        calibration = {}
+        for color in colors:
+            button.setText("Calibrate {}".format(color))
+            button.clicked.connect(lambda: self.changeButton(color, calibration))
+        
+        button.setText("Calibrate colors again")
+        button.clicked.connect(lambda: self.calibrateColors(button))
+
+    def changeButton(self, color: str, calibration: dict) -> dict:
+        calibration[color] = [self.marty.get_ground_sensor_reading('LeftColorSensor'), self.marty.get_ground_sensor_reading('RightIRFoot')]
+        return calibration

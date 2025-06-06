@@ -1,4 +1,3 @@
-from shutil import move
 from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont
@@ -40,7 +39,7 @@ class MainWindow(QWidget):
         button_avancer.setIconSize(QSize(40, 40))
         button_avancer.setGeometry(110, 100, 100, 50)
 
-        button_avancer.clicked.connect(lambda: movement.walk(5, self.martyConnector.marty))
+        button_avancer.clicked.connect(lambda: self.martyConnector.walk(5, self.martyConnector.marty))
 
         button_v_droite = QPushButton("", self)
         button_v_droite.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -64,7 +63,7 @@ class MainWindow(QWidget):
         button_droite.setIconSize(QSize(40, 40))
         button_droite.setGeometry(210, 150, 100, 50)
 
-        button_droite.clicked.connect(lambda: self.martyConnector.marty.sidestep("right"))
+        button_droite.clicked.connect(lambda: self.martyConnector.sidestep("right"))
 
         button_reculer = QPushButton("", self)
         button_reculer.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -72,7 +71,7 @@ class MainWindow(QWidget):
         button_reculer.setIconSize(QSize(40, 40))
         button_reculer.setGeometry(110, 200, 100, 50)
 
-        button_reculer.clicked.connect(lambda: movement.walk_backwards(5, self.martyConnector.marty))
+        button_reculer.clicked.connect(lambda: self.martyConnector.walk_backwards(5))
 
         button_gauche = QPushButton("", self)
         button_gauche.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
@@ -80,7 +79,7 @@ class MainWindow(QWidget):
         button_gauche.setIconSize(QSize(40, 40))
         button_gauche.setGeometry(10, 150, 100, 50)
 
-        button_gauche.clicked.connect(lambda: self.martyConnector.marty.sidestep("left"))
+        button_gauche.clicked.connect(lambda: self.martyConnector.sidestep("left"))
 
         self.group = QButtonGroup()
         self.group.setExclusive(False)

@@ -1,40 +1,40 @@
 calibration = {
-    "vert":[26,170],
-    "rose":[75,177],
-    "bleu":[40,179],
-    "rouge":[65,173],
-    "bleu_f":[18,159],
-    "jaune":[149,180],
-    "noir":[13,31],
-    "sol":[80,98],
+    "green":[26,170],
+    "pink":[75,177],
+    "cyan":[40,179],
+    "red":[65,173],
+    "blue":[18,159],
+    "yellow":[149,180],
+    "black":[13,31],
+    "ground":[80,98],
 }
 
 marge = 4
 
-def get_couleur(color,IR):
-    c="vert"
+def get_color(color,IR):
+    c="green"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    c="rose"
+    c="pink"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    c="bleu"
+    c="cyan"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    c="rouge"
+    c="red"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    c="bleu_f"
+    c="blue"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    c="jaune"
+    c="yellow"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
-    c="noir"
+    c="black"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
     
-    c="sol"
+    c="ground"
     if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
         return c
 
