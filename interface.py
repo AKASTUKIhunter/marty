@@ -44,17 +44,13 @@ class MainWindow(QWidget):
                     movement.kickLeft(self.martyConnector.marty)
                 elif command_elem =="kick right":
                     movement.kickRight(self.martyConnector.marty)
+                elif command_elem =="turn right":
+                    movement.turn("right", self.martyConnector.marty)
+                elif command_elem =="turn left":
+                    movement.turn("left", self.martyConnector.marty)
                 else:
                     eyes.moveEyes('angry',self.martyConnector.marty)
 
-
-
-                    
-        
-        
-
-
-        
             
         #Commands text field
         text_field = QTextEdit(self)
