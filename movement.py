@@ -64,3 +64,6 @@ def kickLeft(marty):
 # Kick Right
 def kickRight(marty):
     marty.kick('right',0,2000,None)
+
+def music(marty):
+    marty.play_sound("excited")

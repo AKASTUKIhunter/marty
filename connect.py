@@ -103,7 +103,7 @@ class MartyConnection:
         self.marty.get_ready()
         for i in range(0,nb_cases):
             self.marty.sidestep('right', 5, 35, 1000)
-
+    
 
 
  # Fonction qui lit et exécute les fichiers .dance

@@ -145,7 +145,7 @@ class MainWindow(QWidget):
         button_v_gauche.setIconSize(QSize(40, 40))
         button_v_gauche.setGeometry(10, 100, 100, 50)
 
-        button_v_droite.clicked.connect(lambda: movement.turn("left", self.martyConnector.marty))
+        button_v_gauche.clicked.connect(lambda: movement.turn("left", self.martyConnector.marty))
         
         button_droite = QPushButton("", self)
         button_droite.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
