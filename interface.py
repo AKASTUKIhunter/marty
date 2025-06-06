@@ -35,6 +35,10 @@ class MainWindow(QWidget):
                     self.martyConnector.marty.celebrate()
                 elif command_elem =="get ready":
                     self.martyConnector.marty.get_ready()
+                elif command_elem =="wave right":
+                    movement.waveRightHand(0,250,self.martyConnector.marty)
+                elif command_elem =="wave left":
+                    movement.waveLeftHand(250,0,self.martyConnector.marty)
                 else:
                     eyes.moveEyes('angry',self.martyConnector.marty)
 
@@ -195,6 +199,7 @@ class MainWindow(QWidget):
         button_wave_left.setIcon(QIcon('images/wave_left.png')) 
         button_wave_left.setIconSize(QSize(40, 40))
         button_wave_left.setGeometry(630, 120, 130, 70)
+        button_wave_left.clicked.connect(lambda: movement.waveLeftHand(70,0,self.martyConnector.marty))
 
         button_wave_right = QPushButton("Wave right", self)
         button_wave_right.setFont(font)
@@ -202,7 +207,7 @@ class MainWindow(QWidget):
         button_wave_right.setIcon(QIcon('images/wave_right.png'))  
         button_wave_right.setIconSize(QSize(40, 40))
         button_wave_right.setGeometry(770, 120, 130, 70)
-        ##button_wave_right.clicked.connect(lambda: movement.moveArms(50,70,self.martyConnector.marty))
+        button_wave_right.clicked.connect(lambda: movement.waveRightHand(0,70,self.martyConnector.marty))
 
 
         # Mouvement - Ligne 2

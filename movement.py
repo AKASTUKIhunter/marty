@@ -34,6 +34,20 @@ def walk_backwards(number_of_steps, marty):
 def moveArms(input1_bras_gauche, input2_bras_droit, marty):
     marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
 
+def waveRightHand(input1_bras_gauche, input2_bras_droit, marty):
+    marty.arms(input1_bras_gauche, -abs(input2_bras_droit),1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(input1_bras_gauche, -abs(input2_bras_droit),1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(0, 0,1000,None)
+
+def waveLeftHand(input1_bras_gauche, input2_bras_droit, marty):
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(-abs(input1_bras_gauche), input2_bras_droit,1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(-abs(input1_bras_gauche), input2_bras_droit,1000,None)
+    marty.arms(0, 0,1000,None)
+
 def walk(number_of_steps, marty):
     step_speed = 1000
     length_step = 15
