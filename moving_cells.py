@@ -13,5 +13,5 @@ def WalkCase(marty_connec,nb_cases):
 def SideStepCase(marty_connec,nb_cases):
     marty_connec.marty.get_ready()
     for i in range(1,nb_cases):
-        marty_connec.marty.sidestep() #Paramètres à ajouter après les mesures
+        marty_connec.marty.sidestep('left', 5, 35, 1000) #Paramètres à ajouter après les mesures
 
