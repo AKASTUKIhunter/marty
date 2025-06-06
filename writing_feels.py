@@ -13,3 +13,4 @@ def Addline(script, cellcolor,mood,color_eyes):
 #test
 fichier = CreateFeelsScript()
 Addline(fichier,"blue", "wide", "4080ff" "\n")
+Addline(fichier,"red", "wide", "4080ff" "\n")

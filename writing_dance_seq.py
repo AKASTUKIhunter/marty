@@ -1,7 +1,7 @@
 
 
 def CreateDanceScript():
-    script = open("script.dance", 'wt')
+    script = open("scriptSEQ.dance", 'wt')
     return script
 
 def Addline(script, nb_steps, direct):
