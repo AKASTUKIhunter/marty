@@ -11,9 +11,9 @@ martin.get_ready()
 #martin.disco_color("blue",martin.Disco.EYES, api='led')
 
 #
-martin.walk(10,'auto', 0, 15,1500)
-martin.stand_straight()
-martin.sidestep('left', 5, 35, 1000)
+
+martin.walk(10, 'auto', 0,-15,1500,None)
+
 #martin.get_ready()
 
 #Traverse un papier de couleur en marchant
