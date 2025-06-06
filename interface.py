@@ -91,6 +91,31 @@ class MainWindow(QWidget):
 
         button_disconnect.clicked.connect(lambda: self.martyConnector.marty.close())
 
+
+        #file Dance Input
+        input_field_dance = QLineEdit(self)
+        input_field_dance.setPlaceholderText("Dance File name")
+        input_field_dance.setGeometry(20,410,145,30)
+
+        #file Dance button
+        button_read_dance = QPushButton("Execute >", self)
+        button_read_dance.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
+        button_read_dance.setGeometry(20, 450, 135, 30)
+
+        button_read_dance.clicked.connect(lambda: self.martyConnector.lecture_dance(input_field_dance.text()))
+
+        #file Feel Input
+        input_field_feel = QLineEdit(self)
+        input_field_feel.setPlaceholderText("Feel File name")
+        input_field_feel.setGeometry(175,410,145,30)
+
+        #file Feel button
+        button_read_feel = QPushButton("Execute >", self)
+        button_read_feel.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
+        button_read_feel.setGeometry(175, 450, 135, 30)
+
+        button_read_feel.clicked.connect(lambda: self.martyConnector.connect(input_field_feel.text()))
+
         # Les boutons de marche
         button_avancer = QPushButton("", self)
         button_avancer.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
