@@ -4,8 +4,8 @@ def turn(side, marty):
     angle = 20
 
     if side == "left":
-        marty.walk(1, "right", -angle, length_step, step_speed)
-        marty.walk(1, "left", -angle, length_step, step_speed)
+        marty.walk(1, "right", angle, length_step, step_speed)
+        marty.walk(1, "left", angle, length_step, step_speed)
     elif side == "right":
         marty.walk(1, "left", -angle, length_step, step_speed)
         marty.walk(1, "right", -angle, length_step, step_speed)
@@ -34,6 +34,20 @@ def walk_backwards(number_of_steps, marty):
 def moveArms(input1_bras_gauche, input2_bras_droit, marty):
     marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
 
+def waveRightHand(input1_bras_gauche, input2_bras_droit, marty):
+    marty.arms(input1_bras_gauche, -abs(input2_bras_droit),1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(input1_bras_gauche, -abs(input2_bras_droit),1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(0, 0,1000,None)
+
+def waveLeftHand(input1_bras_gauche, input2_bras_droit, marty):
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(-abs(input1_bras_gauche), input2_bras_droit,1000,None)
+    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+    marty.arms(-abs(input1_bras_gauche), input2_bras_droit,1000,None)
+    marty.arms(0, 0,1000,None)
+
 def walk(number_of_steps, marty):
     step_speed = 1000
     length_step = 15
@@ -41,4 +55,12 @@ def walk(number_of_steps, marty):
         marty.walk(1, "left", 0, length_step, step_speed)
         marty.walk(1, "right", 0, length_step, step_speed)
     marty.stand_straight()
-    
+
+
+# Kick left
+def kickLeft(marty):
+    marty.kick('left',0,2000,None)
+
+# Kick Right
+def kickRight(marty):
+    marty.kick('right',0,2000,None)
