@@ -1,10 +1,11 @@
 from martypy import Marty
 from martypy import MartyConnectException
+
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
 
 class MartyConnection:
-    def __init__(self):
+    def __init__(self,):
         self.ip : str
         self.marty: Marty
         self.controller: ControllerControl
