@@ -55,3 +55,12 @@ def walk(number_of_steps, marty):
         marty.walk(1, "left", 0, length_step, step_speed)
         marty.walk(1, "right", 0, length_step, step_speed)
     marty.stand_straight()
+
+
+# Kick left
+def kickLeft(marty):
+    marty.kick('left',0,2000,None)
+
+# Kick Right
+def kickRight(marty):
+    marty.kick('right',0,2000,None)

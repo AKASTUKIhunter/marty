@@ -40,6 +40,10 @@ class MainWindow(QWidget):
                     movement.waveRightHand(0,250,self.martyConnector.marty)
                 elif command_elem =="wave left":
                     movement.waveLeftHand(250,0,self.martyConnector.marty)
+                elif command_elem =="kick left":
+                    movement.kickLeft(self.martyConnector.marty)
+                elif command_elem =="kick right":
+                    movement.kickRight(self.martyConnector.marty)
                 else:
                     eyes.moveEyes('angry',self.martyConnector.marty)
 
@@ -272,6 +276,7 @@ class MainWindow(QWidget):
         button_kick_left.setIcon(QIcon('images/kick_left.png'))  
         button_kick_left.setIconSize(QSize(40, 40))
         button_kick_left.setGeometry(630, 200, 130, 70)
+        button_kick_left.clicked.connect(lambda: movement.kickLeft(self.martyConnector.marty))
 
         button_kick_right = QPushButton("Kick right", self)
         button_kick_right.setFont(font)
@@ -279,6 +284,7 @@ class MainWindow(QWidget):
         button_kick_right.setIcon(QIcon('images/kick_right.png'))  
         button_kick_right.setIconSize(QSize(40, 40))
         button_kick_right.setGeometry(770, 200, 130, 70)
+        button_kick_right.clicked.connect(lambda: movement.kickRight(self.martyConnector.marty))
 
     def disable_buttons(self):
         # Disable all buttons except the connect and disconnect button
