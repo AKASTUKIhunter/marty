@@ -1,6 +1,6 @@
 from martypy import Marty
 
-ip="192.168.0.102"
+ip="192.168.0.103"
 my_marty = Marty("wifi",ip)
 
 while(1):
