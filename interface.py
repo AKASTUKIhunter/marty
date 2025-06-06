@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup
+from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup, QTextEdit, QSizePolicy
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont, QColor, QPalette
 import movement
@@ -44,15 +44,6 @@ class MainWindow(QWidget):
                     movement.kickRight(self.martyConnector.marty)
                 else:
                     eyes.moveEyes('angry',self.martyConnector.marty)
-
-
-
-                    
-        
-        
-
-
-        
             
         #Commands text field
         text_field = QTextEdit(self)
