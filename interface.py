@@ -1,6 +1,6 @@
 from gc import enable
 from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton,QTextEdit, QSizePolicy
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit,QButtonGroup
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont, QColor, QPalette
 import movement
