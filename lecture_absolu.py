@@ -1,36 +1,37 @@
 
-'''SEQ 3
-1L
-1U
-2R
-2B
-1L
-1U
-1B
-2U
-1L
-2R
-1L
-2B
-1U'''
+'''ABS 5
+22
+02
+42
+24
+44
+04
+00
+40
+31
+22
+13
+23
+22'''
 
 from martypy import Marty
+from connect import MartyConnection
 
-marty= Marty("wifi","192.168.1.11")
+marty= Marty("wifi","192.168.0.103")
 
 
 
-def lecture_dance():
+def lecture_dance_abs():
+    pos=[1,1]
     with open("dominance.dance", "r", encoding="utf-8") as file:
         for line in file:
-            case=0
-            direction =""
-            for e in line:
-                if e.isdigit():
-                    nb_pas+=int(e)
-                else:
-                    direction=e
-                    break  
+            e=int(line)
+            
+            x=e[0]
+            y=e[1] 
+            
+            if(x<pos[0]):
+                nb_pas 
             print("nombre de pas: ",nb_pas," Direction du robot :",direction)
             
             if direction=="L":
@@ -46,6 +47,4 @@ def lecture_dance():
             marty.walk(nb_pas*case,"auto", 0, length_step,step_speed)
         
         
-            
-            
             

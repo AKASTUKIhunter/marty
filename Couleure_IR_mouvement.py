@@ -14,8 +14,20 @@ calibration={
     "noir":[13,31],
     "sol":[80,98],
 }
+
+colors = {
+    "rose":(255, 102, 204), #rose
+    "rouge":(255, 0, 0),     # Rouge
+    "vert":(0, 255, 0),     # Vert
+    "bleu":(0, 0, 255),     # Bleu
+    "jaune":(255, 255, 0),   # Jaune
+    "bleu_f":(0, 255, 255),   # bleu foncer
+    "sol":(255, 255, 255), # Blanc
+    "noir":(0, 0, 0)        # noir
+    
+}
 # on met une marge pour prendre en compte les différences de lumiètres et les possibles variations au niveau du capteur
-marge=4
+marge=6
 
 
 #On vérifie pour chaque couple couleure, IR si les valeures correspondent à celle d'une couleure calibré
@@ -54,17 +66,6 @@ print("Capteur couleure :",color)
 IR=Marti.get_ground_sensor_reading('RightIRFoot')
 print("Capteur IfraRouge :",IR)
 
-
-#on éffectue une dance si on est sur une case rose
-if get_couleur(color,IR)=="rose":
-    Marti.dance()
-    print("Marty est sur du ",get_couleur(color,IR))
-elif get_couleur(color,IR)=="bleu_f":
-    Marti.celebrate()
-    print("Marty est sur du ",get_couleur(color,IR))
-else:
-    Marti.stop()
-    Marti.stand_straight()
-    print('erreur couleure non trouver')
+Marti.disco_color(c[get_couleur(color,IR)])
     
 Marti.close()
