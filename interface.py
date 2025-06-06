@@ -73,7 +73,13 @@ class MainWindow(QWidget):
         # Execute button
         button_execute = QPushButton("Execute  >", self)
         button_execute.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
-        button_execute.setGeometry(350, 430, 135, 30)
+        button_execute.setGeometry(348, 392, 135, 30)
+        button_execute.clicked.connect(lambda: test())
+
+        # Calibration button
+        button_execute = QPushButton("Calibration", self)
+        button_execute.setStyleSheet('QPushButton {background-color: red; color: black;  font-size: 13px;}')
+        button_execute.setGeometry(770, 450, 135, 30)
         button_execute.clicked.connect(lambda: test())
 
         #IP Input
