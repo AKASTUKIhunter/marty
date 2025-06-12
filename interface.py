@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup, QTextEdit, QSizePolicy
+from PyQt6.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup, QTextEdit, QSizePolicy
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont, QColor, QPalette
 import movement
@@ -7,7 +7,7 @@ import movement
 from connect import MartyConnection
 import eyes
  
-class MainWindow(QWidget):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.resize(950, 500)
