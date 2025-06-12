@@ -3,7 +3,7 @@
 def NewScript(move):
     script = open("scriptSEQ.dance", 'wt')
     line = move
-    script.write(line + "\n")
+    script.write("SEQ 3" + "\n" + line + "\n")
     script.close()
     return script.name
 

@@ -3,7 +3,7 @@
 def NewScript(coordinates):
     script = open("scriptABS.dance", 'wt')
     line = coordinates
-    script.write(line + "\n")
+    script.write("ABS 3" + "\n" + line + "\n")
     script.close()
     return script.name
 
