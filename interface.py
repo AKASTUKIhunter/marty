@@ -42,6 +42,10 @@ class MainWindow(QWidget):
                     movement.kickLeft(self.martyConnector.marty)
                 elif command_elem =="kick right":
                     movement.kickRight(self.martyConnector.marty)
+                elif command_elem =="turn right":
+                    movement.turn("right", self.martyConnector.marty)
+                elif command_elem =="turn left":
+                    movement.turn("left", self.martyConnector.marty)
                 else:
                     eyes.moveEyes('angry',self.martyConnector.marty)
             
@@ -62,8 +66,14 @@ class MainWindow(QWidget):
         # Execute button
         button_execute = QPushButton("Execute  >", self)
         button_execute.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
-        button_execute.setGeometry(350, 430, 135, 30)
+        button_execute.setGeometry(348, 392, 135, 30)
         button_execute.clicked.connect(lambda: test())
+
+        # Calibration button
+        button_calibration = QPushButton("Calibration", self)
+        button_calibration.setStyleSheet('QPushButton {background-color: red; color: black;  font-size: 13px;}')
+        button_calibration.setGeometry(770, 450, 135, 30)
+        button_calibration.clicked.connect(lambda: self.martyConnector.calibrateColors(button_calibration))
 
         #IP Input
         input_field = QLineEdit(self)

@@ -1,4 +1,5 @@
 from martypy import Marty
+import json
 from martypy import MartyConnectException
 from colorDetection import get_color
 import colorDetection
@@ -17,7 +18,7 @@ class MartyConnection:
         self.color: str
         self.speed: int
         self.feelScraper: FeelScraper
-        self.calibration = colorDetection.calibration
+        self.calibration = self.readCalibrationFromFile()
 
         self.case: int  # le nombre de pas nécéssaire pour une case
 
@@ -47,10 +48,10 @@ class MartyConnection:
 
     
     def feel(self):
-        color = self.marty.get_ground_sensor_reading('LeftColorSensor')
+        color = self.marty.get_ground_sensor_reading('LeftIRFoot')
 
         #Récupère les données du capteur IR
-        ir = self.marty.get_ground_sensor_reading('RightIRFoot')
+        ir = self.marty.get_ground_sensor_reading('RightColorSensor')
 
         detected_color = get_color(color, ir)
 
@@ -68,18 +69,52 @@ class MartyConnection:
         self.feel()
 
     def calibrateColors(self, button: QPushButton):
-        colors = ["green", "pink", "cyan", "red", "blue", "yellow", "black", "ground"]
-        calibration = {}
-        for color in colors:
-            button.setText("Calibrate {}".format(color))
-            button.clicked.connect(lambda: self.changeButton(color, calibration))
-        
-        button.setText("Calibrate colors again")
-        button.clicked.connect(lambda: self.calibrateColors(button))
+        colors = ["green", "cyan", "red", "blue", "yellow", "purple"]
+        # Use self.calibration to persist calibration data
+        calibration = self.calibration
 
-    def changeButton(self, color: str, calibration: dict) -> dict:
-        calibration[color] = [self.marty.get_ground_sensor_reading('LeftColorSensor'), self.marty.get_ground_sensor_reading('RightIRFoot')]
-        return calibration
+        # Disconnect previous connections to avoid multiple triggers
+        try:
+            button.clicked.disconnect()
+        except Exception:
+            print("No previous connection to disconnect")
+
+        if button.text() == "Calibration" or button.text() == "Calibrate colors again":
+            button.setText("Calibrate {}".format(colors[0]))
+            button.clicked.connect(lambda: self.changeButton(colors[0], calibration, button)) # type: ignore
+        elif (button.text().startswith("Calibrate ") and
+              button.text().split(" ")[1].lower() in colors and colors.index(button.text().split(" ")[1].lower()) < len(colors) - 1):
+            current_color = button.text().split(" ")[1].lower()
+            button.setText("Calibrate {}".format(colors[colors.index(current_color) + 1]))
+            button.clicked.connect(lambda: self.changeButton(colors[colors.index(current_color) + 1], calibration, button)) # type: ignore
+        elif button.text() == "Calibrate {}".format(colors[-1]):
+            self.saveCalibrationToFile()
+            button.setText("Calibrate colors again")
+            button.clicked.connect(lambda: self.calibrateColors(button))
+
+    def saveCalibrationToFile(self, filename: str = "calibration.json"):
+        with open(filename, 'w') as file:
+            json.dump(self.calibration, file, indent=4)
+        print(f"Calibration saved to {filename}")
+
+    def readCalibrationFromFile(self, filename: str = "calibration.json"):
+        try:
+            with open(filename, 'r') as file:
+                calibration = json.load(file)
+                print(f"Calibration : {calibration} loaded from {filename}")
+                return calibration
+        except FileNotFoundError:
+            print(f"Calibration file {filename} not found.")
+        except json.JSONDecodeError:
+            print(f"Error decoding JSON from {filename}.")
+
+    def changeButton(self, color: str, calibration: dict, button: QPushButton):
+        detected_color = self.marty.get_ground_sensor_reading("LeftColorSensor")
+        detected_ir = self.marty.get_ground_sensor_reading("RightIRFoot")
+        calibration[color] = [detected_color, detected_ir]
+        self.calibration = calibration
+        print(self.calibration)
+        self.calibrateColors(button)
 
     def turn(self, side):
         self.marty.stand_straight()
