@@ -1,17 +1,24 @@
 
 
-
-
-def CreateDanceScriptABS():
+def NewScript(coordinates):
     script = open("scriptABS.dance", 'wt')
-    return script
+    line = coordinates
+    script.write(line + "\n")
+    script.close()
+    return script.name
 
-def Addline(script, coordinate_x, coordinate_y):
+def Addline(script, coordinates):
+    script = open(script, "a")
+    line = coordinates
+    script.write(line + "\n")
 
-    line = coordinate_x + coordinate_y
-    script.writelines(line)
 
 
 #test
-fichier = CreateDanceScriptABS()
-Addline(fichier, "0","1")
+fichier = NewScript("01")
+Addline(fichier, "02")
+Addline(fichier, "22")
+
+
+
+
