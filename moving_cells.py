@@ -19,21 +19,21 @@ def MoonwalkCase(marty,nb_cases):
 def SideStepCaseG(marty,nb_cases):
     marty_connec.get_ready()
     for i in range(0,nb_cases):
-        marty_connec.sidestep('left', 5, 35, 1000)
+        marty_connec.sidestep('left', 6, 35, 1000)
+        marty.stand_straight()
 
 #Fonction pour traverser des cases en sidestep droit
 def SideStepCaseD(marty,nb_cases):
     marty_connec.get_ready()
     for i in range(0,nb_cases):
-        marty_connec.sidestep('right', 5, 35, 1000)
-    marty.stand_straight()
+        marty_connec.sidestep('right', 6, 35, 1000)
+        marty.stand_straight()
 
 
 
-MoonwalkCase(marty_connec,1)
-SideStepCaseG(marty_connec,1)
-SideStepCaseD(marty_connec,2)
-WalkCase(marty_connec,2)
+
+
+SideStepCaseG(marty_connec,2)
 
 
 marty_connec.close()
