@@ -180,6 +180,24 @@ class MartyConnection:
                 else:
                     self.WalkCase(nb_cases)
 
+    # ne marche pas bien
+    def writing_file_abs(self, move, filename):
+        file_empty = not os.path.exists(filename) or os.path.getsize(filename) == 0
+        x, y = (1,1)
+        if move == "avancer":
+            y = y-1
+        elif move == "reculer":
+            y = y+1
+        elif move == "droite":
+            x = x+1
+        elif move == "gauche":
+            x = x-1
+        self.robot_position = [x, y]
+        with open(filename, "a") as script:
+            if file_empty:
+                script.write("ABS 3\n")
+            script.write(f"{x}{y}\n")
+
 
     # Fonction qui lit et exécute les fichiers .dance
     def lecture_dance(self,name):
@@ -207,5 +225,7 @@ class MartyConnection:
             if file_empty:
                 script.write("SEQ 3\n")
             script.write(move + "\n")
+
+
 
 
