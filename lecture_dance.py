@@ -44,18 +44,25 @@ def lecture_dance_abs(self1,name):
 
 
             print("positions future ",pos,"x: ",x," y=",y)
-            if(x<0):
-                SideStepCaseG(self1,-x)
-            elif(x>0):
-                SideStepCaseD(self1,x)
-            pos[0]=pos[0]+x
+            
+            if((pos[0]+x)>=taille_grille or (pos[0]+x)<taille_grille):
+                print("mouvement impossible !!!!")
+            else:
+                
+                if(x<0):
+                    SideStepCaseG(self1,-x)
+                elif(x>0):
+                    SideStepCaseD(self1,x)
+                pos[0]=pos[0]+x
+                
+                
+                if(y<0):
+                    WalkCase(self1,-y)
+                elif (y>0):
+                    MoonwalkCase(self1,y)
+                pos[1]+=y
             
             
-            if(y<0):
-                WalkCase(self1,-y)
-            elif (y>0):
-                MoonwalkCase(self1,y)
-            pos[1]+=y
             
             print("position actuelle: " ,pos)
 
@@ -63,6 +70,12 @@ def lecture_dance_abs(self1,name):
     def lecture_dance_seq(self,name):
         name_file = name + ".dance"
         with open(name_file, "r", encoding="utf-8") as file:
+            type=file.readline()
+            print("type de fichier :",type[:3])
+            taille_grille=int(type[-2])
+            pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]
+            
+            
             for line in file:
                 direction = ""
                 for e in line:
@@ -72,7 +85,6 @@ def lecture_dance_abs(self1,name):
                     else:
                         direction = e
                         break
-                print("nombre de pas: ", nb_cases, " Direction du robot :", direction)
 
                 if direction == "L":
                     SideStepCaseG(self,nb_cases)
