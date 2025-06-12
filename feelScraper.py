@@ -16,14 +16,17 @@ class FeelScraper:
             magenta;wiggle;e040e0
             yellow;excited;fad700
         '''
-        with open(filename, 'r') as file:
-            feels = file.readlines()
-            feels_dict = {}
-            for feel in feels:
-                name, mood, color = feel.strip().split(';')
-                feels_dict[name] = {'mood': mood, 'color': hexToRGB(color)}
-            return feels_dict
-        
+        try:
+            with open(filename, 'r') as file:
+                feels = file.readlines()
+                feels_dict = {}
+                for feel in feels:
+                    name, mood, color = feel.strip().split(';')
+                    feels_dict[name] = {'mood': mood, 'color': hexToRGB(color)}
+                return feels_dict
+        except Exception as e:
+            print(f"Error while reading feels file: {e}")
+            return {}
 
 def hexToRGB(color: str) -> tuple:
     """

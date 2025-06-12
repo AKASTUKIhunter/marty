@@ -2,7 +2,6 @@ from martypy import Marty
 import json
 from martypy import MartyConnectException
 from colorDetection import get_color
-import colorDetection
 from feelScraper import FeelScraper
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
@@ -17,8 +16,8 @@ class MartyConnection:
         self.keyboard: KeyboardControl
         self.color: str
         self.speed: int
-        self.feelScraper: FeelScraper
         self.calibration = self.readCalibrationFromFile()
+        self.feelScraper = FeelScraper(self.calibration)
 
         self.case: int  # le nombre de pas nécéssaire pour une case
 
@@ -48,24 +47,26 @@ class MartyConnection:
 
     
     def feel(self):
-        color = self.marty.get_ground_sensor_reading('LeftColorSensor')
+        try:
+            color = self.marty.get_ground_sensor_reading('LeftColorSensor')
 
-        #Récupère les données du capteur IR
-        ir = self.marty.get_ground_sensor_reading('RightIRFoot')
+            #Récupère les données du capteur IR
+            ir = self.marty.get_ground_sensor_reading('RightIRFoot')
 
-        detected_color = get_color(color, ir, self.calibration)
-
-        feelscraper = FeelScraper(self.calibration, "real.feels")
-        
-        feels = feelscraper.feels
-        
-        print(color, ir, detected_color, feels)
-        if detected_color in feels.keys():
-            mood = feels[detected_color]['mood']
-            print(feels[detected_color])
-            moveEyes(mood, self.marty)
-            self.marty.disco_color(feels[detected_color]['color'], self.marty.Disco.EYES, api="led")
+            detected_color = get_color(color, ir, self.calibration)
             
+            feels = self.feelScraper.feels
+            
+            print(color, ir, detected_color, feels)
+            if detected_color in feels.keys():
+                mood = feels[detected_color]['mood']
+                print(feels[detected_color])
+                moveEyes(mood, self.marty)
+                self.marty.disco_color(feels[detected_color]['color'], self.marty.Disco.EYES, api="led")
+            
+        except Exception as e:
+            print(f"Error while feeling: {e}")
+            self.marty.eyes("normal", 1000)
 
     def sidestep(self, side):
         self.marty.sidestep(side)

@@ -113,11 +113,11 @@ class MainWindow(QWidget):
         input_field_feel.setGeometry(175,410,145,30)
 
         #file Feel button
-        button_read_feel = QPushButton("Execute >", self)
+        button_read_feel = QPushButton("Read", self)
         button_read_feel.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
         button_read_feel.setGeometry(175, 450, 135, 30)
 
-        button_read_feel.clicked.connect(lambda: self.martyConnector.connect(input_field_feel.text()))
+        button_read_feel.clicked.connect(lambda: self.martyConnector.feelScraper.getFeels(input_field_feel.text()))
 
         # Les boutons de marche
         button_avancer = QPushButton("", self)
