@@ -2,6 +2,7 @@ from martypy import Marty
 from martypy import MartyConnectException
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
+import os
 
 class MartyConnection:
     def __init__(self):
@@ -81,47 +82,94 @@ class MartyConnection:
         battery_remaining = status['battRemainCapacityPercent']
         print("Batterie restante: ", battery_remaining, "%")
 
-   #Fonction pour traverser des cases en marchant
+  #Fonction pour traverser des cases en marchant
     def WalkCase(self,nb_cases):
         self.marty.get_ready()
         for i in range(0,nb_cases):
-            self.marty.walk(10, 'auto', 0,15,1500,None)
+            self.marty.walk(12, 'auto', 0,15,1500,None)
+            self.marty.stand_straight()
 
     def MoonwalkCase(self,nb_cases):
         self.marty.get_ready()
         for i in range(0,nb_cases):
-            self.marty.walk(10, 'auto', 0,-15,1500,None)
+            self.marty.walk(12, 'auto', 0,-15,1500,None)
+            self.marty.stand_straight()
 
     #Fonction pour traverser des cases en sidestep gauche
     def SideStepCaseG(self,nb_cases):
         self.marty.get_ready()
         for i in range(0,nb_cases):
-            self.marty.sidestep('left', 5, 35, 1000)
+            self.marty.sidestep('left', 6, 35, 1000)
+            self.marty.stand_straight()
 
     #Fonction pour traverser des cases en sidestep droit
     def SideStepCaseD(self,nb_cases):
         self.marty.get_ready()
         for i in range(0,nb_cases):
-            self.marty.sidestep('right', 5, 35, 1000)
-    
+            self.marty.sidestep('right', 6, 35, 1000)
+            self.marty.stand_straight()
 
 
- # Fonction qui lit et exécute les fichiers .dance
-    def lecture_dance(self,name):
+
+    # Fonction qui lit et exécute les fichiers .dance en absolue
+    def lecture_dance_abs(self,name):
+        name_file = name + ".dance"
+        pos=[1,1]
+        with open(name_file, "r", encoding="utf-8") as file:
+            type=file.readline()
+            
+            print("type de fichier :",type)
+            taille_grille=int(type[-2])
+            pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]  #la position de départ étant le centre de la grille 
+            for line in file:
+                dest =line
+                #On calcul le décalage entre la position actuelle et la destination 
+                x=int(dest[0])-pos[0]
+                y=int(dest[1])-pos[1]
+
+                print("taille grille",taille_grille)
+                print("positions future ",pos,"x: ",x," y=",y)
+                
+                if((pos[0]+x)>=taille_grille or (pos[0]+x)<0):
+                    print("mouvement impossible !!!!")
+                else:
+                    
+                    if(x<0):
+                        self.SideStepCaseG(-x)
+                    elif(x>0):
+                        self.SideStepCaseD(x)
+                    pos[0]=pos[0]+x
+                    
+                    
+                    if(y<0):
+                        self.WalkCase(-y)
+                    elif (y>0):
+                        self.MoonwalkCase(y)
+                    pos[1]+=y
+                
+                
+                
+                print("position actuelle: " ,pos)
+
+    # Fonction qui lit et exécute les fichiers .dance en séquentiel
+    def lecture_dance_seq(self,name):
         name_file = name + ".dance"
         with open(name_file, "r", encoding="utf-8") as file:
+            type=file.readline()
+            print("type de fichier :",type[:3])
+            taille_grille=int(type[-2])
+            pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]
+                
+                
             for line in file:
                 direction = ""
                 for e in line:
                     if e.isdigit():
                         nb_cases = 0
                         nb_cases += int(e)
-                    elif e=="S" or e==" ":
-                        nb_cases = 0
                     else:
                         direction = e
                         break
-                print("nombre de pas: ", nb_cases, " Direction du robot :", direction)
 
                 if direction == "L":
                     self.SideStepCaseG(nb_cases)
@@ -129,5 +177,35 @@ class MartyConnection:
                     self.SideStepCaseD(nb_cases)
                 elif direction == "B":  
                     self.MoonwalkCase(nb_cases)
-                elif direction == "U":
+                else:
                     self.WalkCase(nb_cases)
+
+
+    # Fonction qui lit et exécute les fichiers .dance
+    def lecture_dance(self,name):
+        name_file = name + ".dance"
+        with open(name_file, "r", encoding="utf-8") as file:
+            type=file.readline()
+            print("type de fichier :",type[:3])
+            taille_grille=int(type[-2])
+            pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]
+            print (pos) #la position de départ étant le centre de la grille 
+            
+            
+            if(type[:3]=="SEQ"):
+                self.lecture_dance_seq(name)
+            
+            elif (type[:3]=="ABS"):
+                self.lecture_dance_abs(name)
+    
+
+
+    def Addline(self, move, filename):
+        file_empty = not os.path.exists(filename) or os.path.getsize(filename) == 0
+
+        with open(filename, "a") as script:
+            if file_empty:
+                script.write("SEQ 3\n")
+            script.write(move + "\n")
+
+
