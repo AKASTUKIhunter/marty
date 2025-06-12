@@ -16,13 +16,13 @@ def MoonwalkCase(self,nb_cases):
 def SideStepCaseG(self,nb_cases):
     self.get_ready()
     for i in range(nb_cases):
-        self.sidestep('left', 5, 35, 1000)
+        self.sidestep('left', 6, 35, 1000)
 
 #Fonction pour traverser des cases en sidestep droit
 def SideStepCaseD(self,nb_cases):
     self.get_ready()
     for i in range(nb_cases):
-        self.sidestep('right', 5, 35, 1000)
+        self.sidestep('right', 6, 35, 1000)
 
 
 

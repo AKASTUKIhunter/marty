@@ -5,12 +5,12 @@ from martypy import MartyConnectException
 def WalkCase(self,nb_cases):
     self.get_ready()
     for i in range(nb_cases):
-        self.walk(10, 'auto', 0,15,1500,None)
+        self.walk(12, 'auto', 0,15,1500,None)
 
 def MoonwalkCase(self,nb_cases):
     self.get_ready()
     for i in range(nb_cases):
-        self.walk(10, 'auto', 0,-15,1500,None)
+        self.walk(12, 'auto', 0,-15,1500,None)
 
 #Fonction pour traverser des cases en sidestep gauche
 def SideStepCaseG(self,nb_cases):
@@ -35,7 +35,7 @@ def lecture_dance_abs(self1,name):
         
         print("type de fichier :",type)
         taille_grille=int(type[-2])
-        pos=[round(taille_grille/2),round(taille_grille/2)]  #la position de départ étant le centre de la grille 
+        pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]  #la position de départ étant le centre de la grille 
         for line in file:
             dest =line
             #On calcul le décalage entre la position actuelle et la destination 
@@ -91,7 +91,7 @@ def lecture_dance(self1,name):
         type=file.readline()
         print("type de fichier :",type[:3])
         taille_grille=int(type[-2])
-        pos=[round(taille_grille/2),round(taille_grille/2)]
+        pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]
         print (pos) #la position de départ étant le centre de la grille 
         
         
@@ -102,7 +102,7 @@ def lecture_dance(self1,name):
             lecture_dance_abs(self1,name)
         
         
-ip="192.168.0.103"
-#mon_marti = Marty("wifi",ip)
-mon_marti="test sans marty"
+ip="192.168.0.100"
+mon_marti = Marty("wifi",ip)
+
 lecture_dance(mon_marti,"cirle")
