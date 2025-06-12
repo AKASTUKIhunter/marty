@@ -1,16 +1,19 @@
 
 
-def CreateDanceScript():
+def NewScript(move):
     script = open("scriptSEQ.dance", 'wt')
-    return script
+    line = move
+    script.write(line + "\n")
+    script.close()
+    return script.name
 
-def Addline(script, nb_steps, direct):
+def Addline(script, move):
+    script = open(script, "a")
+    line = move
+    script.write(line + "\n")
 
-    line = nb_steps+direct
-    script.writelines(line + "\n")
 
 
 #test
-fichier = CreateDanceScript()
-Addline(fichier, "3","U")
-Addline(fichier, "1","B")
+fichier = NewScript("4U")
+Addline(fichier, "4U")
