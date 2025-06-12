@@ -1,29 +1,39 @@
 from martypy import Marty
 from connect import MartyConnection
 
-
-
-marty_connec = MartyConnection("192.168.0.103")
+marty_connec = Marty("wifi","192.168.0.100")
 
 #Fonction pour traverser des cases en marchant
-def WalkCase(marty_connec,nb_cases):
-    marty_connec.marty.get_ready()
+def WalkCase(marty,nb_cases):
+    marty_connec.get_ready()
     for i in range(0,nb_cases):
-        marty_connec.marty.walk(10, 'auto', 0,15,1500,None)
+        marty_connec.walk(12, 'auto', 0,15,1500,None)
+    marty.stand_straight()
 
-def MoonwalkCase(marty_connec,nb_cases):
-    marty_connec.marty.get_ready()
+def MoonwalkCase(marty,nb_cases):
+    marty_connec.get_ready()
     for i in range(0,nb_cases):
-        marty_connec.marty.walk(10, 'auto', 0,-15,1500,None)
+        marty_connec.walk(12, 'auto', 0,-15,1500,None)
 
 #Fonction pour traverser des cases en sidestep gauche
-def SideStepCaseG(marty_connec,nb_cases):
-    marty_connec.marty.get_ready()
+def SideStepCaseG(marty,nb_cases):
+    marty_connec.get_ready()
     for i in range(0,nb_cases):
-        marty_connec.marty.sidestep('left', 5, 35, 1000)
+        marty_connec.sidestep('left', 5, 35, 1000)
 
 #Fonction pour traverser des cases en sidestep droit
-def SideStepCaseD(marty_connec,nb_cases):
-    marty_connec.marty.get_ready()
+def SideStepCaseD(marty,nb_cases):
+    marty_connec.get_ready()
     for i in range(0,nb_cases):
-        marty_connec.marty.sidestep('right', 5, 35, 1000)
+        marty_connec.sidestep('right', 5, 35, 1000)
+    marty.stand_straight()
+
+
+
+MoonwalkCase(marty_connec,1)
+SideStepCaseG(marty_connec,1)
+SideStepCaseD(marty_connec,2)
+WalkCase(marty_connec,2)
+
+
+marty_connec.close()
