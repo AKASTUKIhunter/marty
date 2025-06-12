@@ -48,21 +48,24 @@ class MartyConnection:
 
     
     def feel(self):
-        color = self.marty.get_ground_sensor_reading('LeftIRFoot')
+        color = self.marty.get_ground_sensor_reading('LeftColorSensor')
 
         #Récupère les données du capteur IR
-        ir = self.marty.get_ground_sensor_reading('RightColorSensor')
+        ir = self.marty.get_ground_sensor_reading('RightIRFoot')
 
-        detected_color = get_color(color, ir)
+        detected_color = get_color(color, ir, self.calibration)
 
-        feelscraper = FeelScraper("real.feels")
+        feelscraper = FeelScraper(self.calibration, "real.feels")
         
         feels = feelscraper.feels
         
         print(color, ir, detected_color, feels)
-        if detected_color in feels:
-            mood = feels[color]['mood']
+        if detected_color in feels.keys():
+            mood = feels[detected_color]['mood']
+            print(feels[detected_color])
             moveEyes(mood, self.marty)
+            self.marty.disco_color(feels[detected_color]['color'], self.marty.Disco.EYES, api="led")
+            
 
     def sidestep(self, side):
         self.marty.sidestep(side)
