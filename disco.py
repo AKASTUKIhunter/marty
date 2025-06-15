@@ -3,5 +3,6 @@ from connect import MartyConnection
 marty_connec = MartyConnection()
 marty_connec.connect("192.168.1.6")
 
+#test de la fonction disco_color
 marty_connec.marty.disco_color('blue', marty_connec.marty.Disco.EYES, api='led')
 marty_connec.marty.dance()
