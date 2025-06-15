@@ -1,6 +1,3 @@
-
-.gitignore
-
 .vscode
 
 # Byte-compiled / optimized / DLL files
@@ -184,4 +181,6 @@ nicekey.txt
 nicekey.txt.pub
 .gitignore
 calibration.json
+file.dance
+new_dance_seq.dance
 real.feels
