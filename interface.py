@@ -1,7 +1,8 @@
-from PyQt6.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup, QTextEdit, QSizePolicy
+from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup, QTextEdit, QSizePolicy
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont, QColor, QPalette
 import movement
+import os
 from connect import MartyConnection
 import eyes
  
@@ -10,6 +11,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.resize(950, 500)
         self.setWindowTitle("Mr Marty")
+        self.w = None
 
         self.martyConnector = MartyConnection()
 
@@ -61,7 +63,7 @@ class MainWindow(QMainWindow):
         text_field.setStyleSheet("background-color: rgb(54, 54, 54);")
 
         # Execute button
-        button_execute = QPushButton("Execute  >", self)
+        button_execute = QPushButton("Execute >", self)
         button_execute.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
         button_execute.setGeometry(348, 392, 135, 30)
         button_execute.clicked.connect(lambda: test())
@@ -95,7 +97,7 @@ class MainWindow(QMainWindow):
         input_field_dance.setGeometry(20, 410, 145, 30)
 
         # File Dance button
-        button_read_dance = QPushButton("Execute >", self)
+        button_read_dance = QPushButton("Read .dance file", self)
         button_read_dance.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
         button_read_dance.setGeometry(20, 450, 135, 30)
         button_read_dance.clicked.connect(lambda: self.martyConnector.lecture_dance(input_field_dance.text()))
@@ -106,7 +108,7 @@ class MainWindow(QMainWindow):
         input_field_feel.setGeometry(175, 410, 145, 30)
 
         #file Feel button
-        button_read_feel = QPushButton("Read", self)
+        button_read_feel = QPushButton("Read .feel file", self)
         button_read_feel.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;  font-size: 13px;}')
         button_read_feel.setGeometry(175, 450, 135, 30)
 
@@ -280,6 +282,12 @@ class MainWindow(QMainWindow):
         button_kick_right.setGeometry(770, 200, 130, 70)
         button_kick_right.clicked.connect(lambda: movement.kickRight(self.martyConnector.marty))
 
+        button_create_feel = QPushButton("Create Feel", self)
+        button_create_feel.setFont(font)
+        button_create_feel.setStyleSheet('QPushButton {background-color: #03b8ff; color: black;}')
+        button_create_feel.setGeometry(20, 500, 135, 30)
+        button_create_feel.clicked.connect(lambda: self.showNewWindow())
+
     def handle_button_click(self, action):
         if self.writing_seq.isChecked():
             if action == "avancer":
@@ -350,3 +358,99 @@ class MainWindow(QMainWindow):
         self.disable_buttons()
         self.martyConnector.controller.start()
         self.uncheck_QRadio_buttons()
+
+    def showNewWindow(self):
+        if self.w is None:
+            self.w = FeelsCreatorWindow()
+            self.w.show()
+
+class FeelsCreatorWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Écriture .feels")
+        self.resize(950, 200)
+
+        self.script_name = None  
+
+        # Layout principal
+        main_layout = QVBoxLayout()
+
+        # Champ pour entrer le nom du fichier
+        file_layout = QHBoxLayout()
+        file_layout.addWidget(QLabel("Nom du fichier (.feels):"))
+        self.filename_input = QLineEdit()
+        file_layout.addWidget(self.filename_input)
+        main_layout.addLayout(file_layout)
+
+        # Layout horizontal pour les combos
+        combo_layout = QHBoxLayout()
+
+        self.couleur = QComboBox()
+        self.couleur.addItems(["green","pink","cyan","red", "blue","yellow","black","ground"])
+
+        self.feel = QComboBox()
+        self.feel.addItems(["angry", "wide", "normal", "wiggle", "excited"])
+
+        self.eyes = QComboBox()
+        self.eyes.addItems([
+            "#FFFFFF",  # white
+            "#FF0000",  # red
+            "#0000FF",  # blue
+            "#FFFF00",  # yellow
+            "#00FF00",  # green
+            "#FFC0CB",  # pink
+            "#800080",  # purple
+            "#FFA500"   # orange
+        ])
+
+        combo_layout.addWidget(QLabel("Cell Color:"))
+        combo_layout.addWidget(self.couleur)
+        combo_layout.addWidget(QLabel("Mood:"))
+        combo_layout.addWidget(self.feel)
+        combo_layout.addWidget(QLabel("Eye Color:"))
+        combo_layout.addWidget(self.eyes)
+
+        main_layout.addLayout(combo_layout)
+
+        self.bouton = QPushButton("Ajouter à .feels")
+        self.bouton.clicked.connect(self.sauvegarder_choix)
+
+        self.retour = QLabel("")
+
+        main_layout.addWidget(self.bouton)
+        main_layout.addWidget(self.retour)
+
+        self.setLayout(main_layout)
+
+    def sauvegarder_choix(self):
+        filename = self.filename_input.text().strip()
+
+        if not filename:
+            self.retour.setText("Entrez un nom de fichier valide.")
+            return
+
+        if not filename.endswith(".feels"):
+            filename += ".feels"
+
+        self.script_name = filename
+
+        if not os.path.exists(self.script_name):
+            new_script(self.script_name)
+
+        couleur = self.couleur.currentText()
+        humeur = self.feel.currentText()
+        yeux = self.eyes.currentText()
+
+        add_line(self.script_name, couleur, humeur, yeux)
+        self.retour.setText(f" Ligne ajoutée à {self.script_name} : {couleur};{humeur};{yeux}")
+
+
+def new_script(filename):
+    with open(filename, 'wt') as script:
+        pass
+    return filename
+
+def add_line(filename, cellcolor, mood, color_eyes):
+    with open(filename, 'a') as script:
+        line = f"{cellcolor};{mood};{color_eyes}"
+        script.write(line + "\n")
