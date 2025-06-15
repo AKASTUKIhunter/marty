@@ -1,8 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QLineEdit, QSlider, QLabel, QRadioButton, QButtonGroup, QTextEdit, QSizePolicy
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QFont, QColor, QPalette
-from zmq import has
-import movement
 import os
 from connect import MartyConnection
 
@@ -20,35 +18,35 @@ class MainWindow(QMainWindow):
                 commands_list = text_field.toPlainText().split("\n")
                 for command_elem in commands_list:
                     if command_elem == "wiggle eyes":
-                        movement.moveEyes('wiggle', self.martyConnector.marty)
+                        self.martyConnector.moveEyes('wiggle')
                     elif command_elem == "forward":
-                        movement.walk(1, self.martyConnector.marty)
+                        self.martyConnector.WalkCase(1)
                     elif command_elem == "backward":
-                        movement.walk_backwards(1, self.martyConnector.marty)
+                        self.martyConnector.MoonwalkCase(1)
                     elif command_elem == "right":
-                        movement.turn("right", self.martyConnector.marty)
+                        self.martyConnector.turn("right")
                     elif command_elem == "left":
-                        movement.turn("left", self.martyConnector.marty)
+                        self.martyConnector.turn("left")
                     elif command_elem == "dance":
-                        self.martyConnector.marty.dance()
+                        self.martyConnector.dance()
                     elif command_elem == "celebrate":
-                        self.martyConnector.marty.celebrate()
+                        self.martyConnector.celebrate()
                     elif command_elem == "get ready":
-                        self.martyConnector.marty.get_ready()
+                        self.martyConnector.get_ready()
                     elif command_elem == "wave right":
-                        movement.waveRightHand(0, 250, self.martyConnector.marty)
+                        self.martyConnector.waveRightHand(0, 250)
                     elif command_elem == "wave left":
-                        movement.waveLeftHand(250, 0, self.martyConnector.marty)
+                        self.martyConnector.waveLeftHand(250, 0)
                     elif command_elem == "kick left":
-                        movement.kickLeft(self.martyConnector.marty)
+                        self.martyConnector.kickLeft()
                     elif command_elem == "kick right":
-                        movement.kickRight(self.martyConnector.marty)
+                        self.martyConnector.kickRight()
                     elif command_elem == "turn right":
-                        movement.turn("right", self.martyConnector.marty)
+                        self.martyConnector.turn("right")
                     elif command_elem == "turn left":
-                        movement.turn("left", self.martyConnector.marty)
+                        self.martyConnector.turn("left")
                     else:
-                        movement.moveEyes('angry', self.martyConnector.marty)
+                        self.martyConnector.moveEyes('angry')
 
         # Commands text field
         text_field = QTextEdit(self)
@@ -324,33 +322,33 @@ class MainWindow(QMainWindow):
                     self.martyConnector.writing_file_abs("gauche","new_dance_seq.dance")
             else:
                 if action == "avancer":
-                    movement.walk(1, self.martyConnector.marty)
+                    self.martyConnector.WalkCase(1)
                 elif action == "reculer":
-                    movement.walk_backwards(1, self.martyConnector.marty)
+                    self.martyConnector.MoonwalkCase(1)
                 elif action == "v_droite":
-                    movement.turn("right", self.martyConnector.marty)
+                    self.martyConnector.turn("right")
                 elif action == "v_gauche":
-                    movement.turn("left", self.martyConnector.marty)
+                    self.martyConnector.turn("left")
                 elif action == "droite":
-                    self.martyConnector.marty.sidestep("right")
+                    self.martyConnector.SideStepCaseD(1)
                 elif action == "gauche":
-                    self.martyConnector.marty.sidestep("left")
+                    self.martyConnector.SideStepCaseG(1)
                 elif action == "get_ready":
-                    movement.get_ready(self.martyConnector.marty)
+                    self.martyConnector.get_ready()
                 elif action == "celebrate":
-                    movement.celebrate(self.martyConnector.marty)
+                    self.martyConnector.celebrate()
                 elif action == "wave_left":
-                    movement.waveLeftHand(70, 0, self.martyConnector.marty)
+                    self.martyConnector.waveLeftHand(70, 0)
                 elif action == "wave_right":
-                    movement.waveRightHand(0, 70, self.martyConnector.marty)
+                    self.martyConnector.waveRightHand(0, 70)
                 elif action == "dance":
-                    self.martyConnector.marty.dance()
+                    self.martyConnector.dance()
                 elif action == "wiggle_eyes":
-                    movement.moveEyes('wiggle', self.martyConnector.marty)
+                    self.martyConnector.moveEyes('wiggle')
                 elif action == "kick_left":
-                    movement.kickLeft(self.martyConnector.marty)
+                    self.martyConnector.kickLeft()
                 elif action == "kick_right":
-                    movement.kickRight(self.martyConnector.marty)
+                    self.martyConnector.kickRight()
 
     def disable_buttons(self):
         # Disable all buttons except the connect and disconnect button

@@ -1,34 +1,29 @@
 import XboxController
-from movement import *
-
-from martypy import Marty
-
-import movement
+from connect import MartyConnection
 
 class ControllerControl:
-    def __init__(self, marty: Marty):
-        self.marty = marty
+    def __init__(self, martyConnector: MartyConnection):
+        self.martyConnector = martyConnector
         self.controller = XboxController.XboxController()
 
     def act(self, controls: dict):
         if controls["ljy"] > 0.5:
-            self.marty.walk()
+            self.martyConnector.WalkCase(1)
         elif controls["ljy"] < -0.5:
-            movement.walk_backwards(5, self.marty)
-        
+            self.martyConnector.MoonwalkCase(1)
+
         if controls["ljx"] > 0.5:
-            movement.turn("right", self.marty)
+            self.martyConnector.turn("right")
         elif controls["ljx"] < -0.5:
-            movement.turn("left", self.marty)
+            self.martyConnector.turn("left")
 
         if controls["a"]:
-            self.marty.set_volume(100)
-            movement.moveEyes("excited", self.marty)
+            self.martyConnector.moveEyes("excited")
         if controls["b"]:
-            movement.moveArms(100, -100, self.marty)
+            self.martyConnector.waveRightHand(100, -100)
         if controls["start"]:
             # Stop listener
-            self.marty.close()
+            self.martyConnector.disconnect()
             return False
         else:
             # If no "start" button is not pressed, return True to keep the loop running

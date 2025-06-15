@@ -3,7 +3,6 @@ import json
 from martypy import MartyConnectException
 from colorDetection import get_color
 from feelScraper import FeelScraper
-import movement
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
 from PyQt6.QtWidgets import QPushButton
@@ -27,26 +26,14 @@ class MartyConnection:
             self.ip = ip
             print(f"Connected to Marty at {ip}")
             self.marty.get_ready()
-            self.controller = ControllerControl(self.marty)
-            self.keyboard = KeyboardControl(self.marty)
+            self.controller = ControllerControl(self)
+            self.keyboard = KeyboardControl(self)
             return self.marty
 
         except MartyConnectException as e:
             print(f"Error while connecting to Marty at {ip}: {e}")
         except Exception as e:
             print(f"Unexpected error while connecting to Marty at {ip}: {e}")
-
-    def walk(self, number_of_steps: int, marty):
-        try:
-            step_speed = 1000
-            length_step = 15
-            for i in range(0, number_of_steps):
-                marty.walk(1, "left", 0, length_step, step_speed)
-                marty.walk(1, "right", 0, length_step, step_speed)
-            marty.stand_straight()
-            self.feel()
-        except Exception as e:
-            print(f"Error while walking: {e}")
     
     def feel(self):
         try:
@@ -63,18 +50,11 @@ class MartyConnection:
             if detected_color in feels.keys():
                 mood = feels[detected_color]['mood']
                 print(feels[detected_color])
-                movement.moveEyes(mood, self.marty)
+                self.moveEyes(mood)
                 self.marty.disco_color(feels[detected_color]['color'], self.marty.Disco.EYES, api="led")
             
         except Exception as e:
             print(f"Error while feeling: {e}")
-
-    def sidestep(self, side):
-        try:
-            self.marty.sidestep(side)
-            self.feel()
-        except Exception as e:
-            print(f"Error while sidestepping: {e}")
 
     def calibrateColors(self, button: QPushButton):
         if hasattr(self, 'marty'):
@@ -126,45 +106,6 @@ class MartyConnection:
         self.calibration = calibration
         print(self.calibration)
         self.calibrateColors(button)
-
-    def turn(self, side):
-        try:
-            self.marty.stand_straight()
-            angle = 20
-            length_step = 8
-            step_speed = 1500
-
-            self.marty.stand_straight()
-            if side == "left":
-                for i in range(0, 2):
-                    self.marty.walk(1, "right", -angle, length_step, step_speed)
-                    self.marty.walk(1, "left", -angle, length_step, step_speed)
-            elif side == "right":
-                for i in range(0, 2):
-                    self.marty.walk(1, "left", -angle, length_step, step_speed)
-                    self.marty.walk(1, "right", -angle, length_step, step_speed)
-            self.marty.stand_straight()
-        except Exception as e:
-            print(f"Error while turning: {e}")
-
-    def walk_backwards(self, number_of_steps):
-        try:
-            speed = 1000
-            length_step = 15
-
-            self.marty.stand_straight()
-            for i in range(0, number_of_steps):
-                self.marty.walk(1, "left", 0, -length_step, speed)
-                self.marty.walk(1, "right", 0, -length_step, speed)
-            self.marty.stand_straight()
-        except Exception as e:
-            print(f"Error while walking backwards: {e}")
-
-    def moveArms(self, input1_bras_gauche, input2_bras_droit):
-        try:
-            self.marty.arms(input1_bras_gauche, input2_bras_droit, 1000, None)
-        except Exception as e:
-            print(f"Error while moving arms: {e}")
 
     # Fonction de détection d'obstacle
     def detect_obs(self):
@@ -245,8 +186,6 @@ class MartyConnection:
             self.feel()
         except Exception as e:
             print(f"Error while sidestepping right: {e}")
-
-
 
     # Fonction qui lit et exécute les fichiers .dance en absolue
     def lecture_dance_abs(self,name):
@@ -348,7 +287,6 @@ class MartyConnection:
                 script.write("ABS 3\n")
             script.write(f"{new_pos[0]}{new_pos[1]}\n")
 
-
     # Fonction qui lit et exécute les fichiers .dance
     def lecture_dance(self,name):
         try:
@@ -369,8 +307,6 @@ class MartyConnection:
         except FileNotFoundError:
             print(f"Erreur lors de la lecture: Le fichier {name_file} n'existe pas.")
     
-
-
     def Addline(self, move, filename):
         file_empty = not os.path.exists(filename) or os.path.getsize(filename) == 0
 
@@ -385,3 +321,64 @@ class MartyConnection:
             print("Disconnected from Marty")
         else:
             print("No Marty connection to disconnect")
+
+    def turn(self, side: str):
+        try:
+            length_step = 8
+            step_speed = 1500
+            angle = 20
+
+            if side == "left":
+                self.marty.walk(1, "right", angle, length_step, step_speed)
+                self.marty.walk(1, "left", angle, length_step, step_speed)
+            elif side == "right":
+                self.marty.walk(1, "left", -angle, length_step, step_speed)
+                self.marty.walk(1, "right", -angle, length_step, step_speed)
+
+            self.marty.stand_straight()
+        except Exception as e:
+            print(f"Error in turn function: {e}")
+    
+    def get_ready(self):
+        try:
+            self.marty.get_ready()
+        except Exception as e:
+            print(f"Error in get_ready function: {e}")
+
+    def dance(self):
+        try:
+            self.marty.dance()
+        except Exception as e:
+            print(f"Error in dance function: {e}")
+
+    def celebrate(self):
+        try:
+            self.marty.celebrate()
+        except Exception as e:
+            print(f"Error in celebrate function: {e}")
+
+    def moveEyes(self, mood: str):
+        try:
+            self.marty.eyes(mood, 1000)
+        except Exception as e:
+            print(f"Error in moveEyes function: {e}")
+
+    def waveRightHand(self, input1_bras_gauche: int, input2_bras_droit: int):
+        try:
+            self.marty.arms(input1_bras_gauche, -abs(input2_bras_droit),1000,None)
+            self.marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+            self.marty.arms(input1_bras_gauche, -abs(input2_bras_droit),1000,None)
+            self.marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+            self.marty.arms(0, 0,1000,None)
+        except Exception as e:
+            print(f"Error in waveRightHand function: {e}")
+
+    def waveLeftHand(self, input1_bras_gauche: int, input2_bras_droit: int):
+        try:
+            self.marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+            self.marty.arms(-abs(input1_bras_gauche), input2_bras_droit,1000,None)
+            self.marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+            self.marty.arms(-abs(input1_bras_gauche), input2_bras_droit,1000,None)
+            self.marty.arms(0, 0,1000,None)
+        except Exception as e:
+            print(f"Error in waveLeftHand function: {e}")

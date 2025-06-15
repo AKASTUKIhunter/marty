@@ -1,9 +1,10 @@
-from martypy import Marty
+
 from pynput.keyboard import Key, Listener
+from connect import MartyConnection
 
 class KeyboardControl:
-    def __init__(self, marty: Marty):
-        self.marty = marty
+    def __init__(self, martyConnector: MartyConnection):
+        self.martyConnector = martyConnector
 
     def on_press(self, key):
         self.key = key
@@ -14,19 +15,20 @@ class KeyboardControl:
         print('{0} release'.format(
             key))
         if key == Key.up:
-            self.marty.walk()
-        if key == Key.down:
-            pass # self.marty.
-        if key == Key.left:
-            self.marty.sidestep("left")
-        if key == Key.right:
-            self.marty.sidestep("right")
-        if key == Key.space:
-            self.marty.set_volume(50)
-            print(self.marty.play_mp3("Everything In Its Right Place.mp3"))
-        if key == Key.esc:
+            self.martyConnector.WalkCase(1)
+        elif key == Key.down:
+            self.martyConnector.MoonwalkCase(1)
+        elif key == Key.left:
+            self.martyConnector.SideStepCaseG(1)
+        elif key == Key.right:
+            self.martyConnector.SideStepCaseD(1)
+        elif key == Key.space:
+            self.martyConnector.dance()
+        elif key == Key.enter:
+            self.martyConnector.get_ready()
+        elif key == Key.esc:
             # Stop listener
-            self.marty.close()
+            self.martyConnector.disconnect()
             return False
 
     def start(self):

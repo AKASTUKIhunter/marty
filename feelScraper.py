@@ -1,4 +1,4 @@
-from colorDetection import  marge, get_color
+from colorDetection import  marge
 
 class FeelScraper:
     def __init__(self, calibration, filename: str = "real.feels"):
