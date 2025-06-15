@@ -179,12 +179,16 @@ class MartyConnection:
         for i in range(0,nb_cases):
             self.marty.walk(12, 'auto', 0,15,1500,None)
             self.marty.stand_straight()
+        
+        self.feel()
 
     def MoonwalkCase(self,nb_cases):
         self.marty.get_ready()
         for i in range(0,nb_cases):
             self.marty.walk(12, 'auto', 0,-15,1500,None)
             self.marty.stand_straight()
+        
+        self.feel()
 
     #Fonction pour traverser des cases en sidestep gauche
     def SideStepCaseG(self,nb_cases):
@@ -192,6 +196,8 @@ class MartyConnection:
         for i in range(0,nb_cases):
             self.marty.sidestep('left', 6, 35, 1000)
             self.marty.stand_straight()
+        
+        self.feel()
 
     #Fonction pour traverser des cases en sidestep droit
     def SideStepCaseD(self,nb_cases):
@@ -199,6 +205,8 @@ class MartyConnection:
         for i in range(0,nb_cases):
             self.marty.sidestep('right', 6, 35, 1000)
             self.marty.stand_straight()
+        
+        self.feel()
 
 
 
