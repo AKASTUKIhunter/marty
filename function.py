@@ -1,71 +1,132 @@
-from martypy import Marty
+import sys
+from PyQt6.QtWidgets import (
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout,
+    QComboBox, QLabel, QPushButton, QLineEdit
+)
+import os
 
+# Fonctions pour la gestion du fichier .feels
+def new_script(filename):
+    with open(filename, 'wt') as script:
+        pass
+    return filename
 
+def add_line(filename, cellcolor, mood, color_eyes):
+    with open(filename, 'a') as script:
+        line = f"{cellcolor};{mood};{color_eyes}"
+        script.write(line + "\n")
 
-#Fonction pour tourner à 90 selon le côté choisi (gauche/droite)
-def turn(marty,side):
-    length_step = 8
-    step_speed = 1500
-    angle = 20
+# Fenêtre secondaire : éditeur .feels
+class Fenetre(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Écriture .feels")
+        self.resize(950, 200)
 
-    if side == "left":
-        marty.walk(1, "right", -angle, length_step, step_speed)
-        marty.walk(1, "left", -angle, length_step, step_speed)
-    elif side == "right":
-        marty.walk(1, "left", -angle, length_step, step_speed)
-        marty.walk(1, "right", -angle, length_step, step_speed)
+        self.script_name = None  
 
-    marty.stand_straight()
+        # Layout principal
+        main_layout = QVBoxLayout()
 
+        # Champ pour entrer le nom du fichier
+        file_layout = QHBoxLayout()
+        file_layout.addWidget(QLabel("Nom du fichier (.feels):"))
+        self.filename_input = QLineEdit()
+        file_layout.addWidget(self.filename_input)
+        main_layout.addLayout(file_layout)
 
-#la string mood peut avoir 5 valeurs:
-#'angry','excited','wiggle','normal','wide'
-#Fonction pour bouger les yeux selon la mood
-def moveEyes(marty,mood):
-    marty.eyes(mood,1000)
+        # Layout horizontal pour les combos
+        combo_layout = QHBoxLayout()
 
-#Fonction moonwalk, prends en paramètre un nombre de pas à faire en moonwalk
-def walk_backwards(marty,number_of_steps):
-    step_speed = 1000
-    length_step = 15
-    for i in range(0,number_of_steps):
-        marty.walk(1, "left", 0, -length_step, step_speed)
-        marty.walk(1, "right", 0, -length_step, step_speed)
-    marty.stand_straight()
+        self.couleur = QComboBox()
+        self.couleur.addItems(["green","pink","cyan","red", "blue","yellow","black","ground"])
 
+        self.feel = QComboBox()
+        self.feel.addItems(["angry", "wide", "normal", "wiggle", "excited"])
 
-#Fonction pour bouger les bras selon l'angle choisi
-#Les variables input1_bras_gauche, input2_bras_droit prennent des int de -100 à 100
-def moveArms(marty,input1_bras_gauche, input2_bras_droit):
-    marty.arms(input1_bras_gauche, input2_bras_droit,1000,None)
+        self.eyes = QComboBox()
+        self.eyes.addItems([
+            "#FFFFFF",  # white
+            "#FF0000",  # red
+            "#0000FF",  # blue
+            "#FFFF00",  # yellow
+            "#00FF00",  # green
+            "#008080",  # teal
+            "#FFC0CB",  # pink
+            "#800080",  # purple
+            "#FFA500"   # orange
+        ])
 
-# Fonction qui test si marty est sur le sol ou non
-def sensing_test(marty):
-        if marty.foot_on_ground('RightIRFoot'):
-            marty.dance()
-            print("Marti est sur le sol")
+        combo_layout.addWidget(QLabel("Cell Color:"))
+        combo_layout.addWidget(self.couleur)
+        combo_layout.addWidget(QLabel("Mood:"))
+        combo_layout.addWidget(self.feel)
+        combo_layout.addWidget(QLabel("Eye Color:"))
+        combo_layout.addWidget(self.eyes)
+
+        main_layout.addLayout(combo_layout)
+
+        self.bouton = QPushButton("Ajouter à .feels")
+        self.bouton.clicked.connect(self.sauvegarder_choix)
+
+        self.retour = QLabel("")
+
+        main_layout.addWidget(self.bouton)
+        main_layout.addWidget(self.retour)
+
+        self.setLayout(main_layout)
+
+    def sauvegarder_choix(self):
+        filename = self.filename_input.text().strip()
+
+        if not filename:
+            self.retour.setText("Entrez un nom de fichier valide.")
+            return
+
+        if not filename.endswith(".feels"):
+            filename += ".feels"
+
+        self.script_name = filename
+
+        if not os.path.exists(self.script_name):
+            new_script(self.script_name)
+
+        couleur = self.couleur.currentText()
+        humeur = self.feel.currentText()
+        yeux = self.eyes.currentText()
+
+        add_line(self.script_name, couleur, humeur, yeux)
+        self.retour.setText(f"✅ Ligne ajoutée à {self.script_name} : {couleur};{humeur};{yeux}")
+
+# Fenêtre principale avec bouton pour ouvrir la fenêtre secondaire
+class FenetrePrincipale(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Fenêtre principale")
+        self.resize(400, 200)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        bouton_ouvrir = QPushButton("Ouvrir l'éditeur .feels")
+        bouton_ouvrir.clicked.connect(self.ouvrir_fenetre_feels)
+
+        layout.addWidget(QLabel("Bienvenue dans l'application principale"))
+        layout.addWidget(bouton_ouvrir)
+
+        self.fenetre_feels = None
+
+    def ouvrir_fenetre_feels(self):
+        if self.fenetre_feels is None or not self.fenetre_feels.isVisible():
+            self.fenetre_feels = Fenetre()
+            self.fenetre_feels.show()
         else:
-            print("Marti n'est pas sur le sol")
+            self.fenetre_feels.raise_()
+            self.fenetre_feels.activateWindow()
 
-# Fonction de détection d'obstacle
-def detect_obs(marty):
-        if marty.foot_obstacle_sensed('RightIRFoot'):
-            print("Ya un obstacle")
-        else:
-            print("Marti est safe")
-            marty.eyes("wiggle", 1000)
-
-#Kick Left
-def kickLeft(marty):
-    marty.kick('left',0,2000,None)
-
-#Kick Right
-def kickRight(marty):
-    marty.kick('right',0,2000,None)
-
-# Fonction de récupération du niveau de batterie
-def get_battery(marty):
-    status = marty.get_power_status()
-    battery_remaining = status['battRemainCapacityPercent']
-    print("Batterie restante: ", battery_remaining, "%")
-    
+# Lancer l'application
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    fenetre = FenetrePrincipale()
+    fenetre.show()
+    sys.exit(app.exec())
