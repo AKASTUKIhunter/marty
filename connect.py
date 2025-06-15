@@ -279,6 +279,37 @@ class MartyConnection:
                 else:
                     self.WalkCase(nb_cases)
 
+    def writing_file_abs(self, move, filename):
+        valid_positions = [(1,1), (1,0), (0,1), (0,0), (2,1), (1,2), (2,0), (0,2), (2,2)]
+        
+        file_empty = not os.path.exists(filename) or os.path.getsize(filename) == 0
+        
+        x, y = self.robot_position if hasattr(self, 'robot_position') else (1, 1)
+        
+        if move == "avancer":
+            new_pos = (x, y-1)
+        elif move == "reculer":
+            new_pos = (x, y+1)
+        elif move == "droite":
+            new_pos = (x+1, y)
+        elif move == "gauche":
+            new_pos = (x-1, y)
+        else:
+            raise ValueError("Mouvement invalide. Utilisez 'avancer', 'reculer', 'droite' ou 'gauche'.")
+        
+        # Si la nouvelle position n'est pas valide, ne rien faire (retourner immédiatement)
+        if new_pos not in valid_positions:
+            return
+        
+        # Mettre à jour la position du robot
+        self.robot_position = list(new_pos)
+        
+        # Écrire dans le fichier
+        with open(filename, "a") as script:
+            if file_empty:
+                script.write("ABS 3\n")
+            script.write(f"{new_pos[0]}{new_pos[1]}\n")
+
 
     # Fonction qui lit et exécute les fichiers .dance
     def lecture_dance(self,name):
@@ -306,5 +337,7 @@ class MartyConnection:
             if file_empty:
                 script.write("SEQ 3\n")
             script.write(move + "\n")
+
+
 
 

@@ -304,19 +304,18 @@ class MainWindow(QMainWindow):
                 self.martyConnector.Addline("1L","new_dance_seq.dance")
         elif self.writing_abs.isChecked():
             if action == "avancer":
-                movement.walk(1, self.martyConnector.marty)
+                self.martyConnector.writing_file_abs("avancer","new_dance_seq.dance")
             elif action == "reculer":
-                movement.walk_backwards(1, self.martyConnector.marty)
+                self.martyConnector.writing_file_abs("reculer","new_dance_seq.dance")
             elif action == "v_droite":
-                movement.turn("right", self.martyConnector.marty)
+                self.martyConnector.writing_file_abs("droite","new_dance_seq.dance")
             elif action == "v_gauche":
-                movement.turn("left", self.martyConnector.marty)
+                self.martyConnector.writing_file_abs("gauche","new_dance_seq.dance")
             elif action == "droite":
-                self.martyConnector.marty.sidestep("right")
+               self.martyConnector.writing_file_abs("droite","new_dance_seq.dance")
             elif action == "gauche":
-                self.martyConnector.marty.sidestep("left")
+                self.martyConnector.writing_file_abs("gauche","new_dance_seq.dance")
         else:
-            # Default behavior
             if action == "avancer":
                 movement.walk(1, self.martyConnector.marty)
             elif action == "reculer":
