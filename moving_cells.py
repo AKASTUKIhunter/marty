@@ -10,6 +10,7 @@ def WalkCase(marty,nb_cases):
         marty_connec.walk(12, 'auto', 0,15,1500,None)
     marty.stand_straight()
 
+#Focntion pour traverser des cases en reculant
 def MoonwalkCase(marty,nb_cases):
     marty_connec.get_ready()
     for i in range(0,nb_cases):
@@ -32,7 +33,7 @@ def SideStepCaseD(marty,nb_cases):
 
 
 
-
+#test
 SideStepCaseG(marty_connec,2)
 
 

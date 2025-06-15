@@ -1,5 +1,5 @@
 
-
+#Fonction création de script
 def NewScript(move):
     script = open("scriptSEQ.dance", 'wt')
     line = move
@@ -7,6 +7,7 @@ def NewScript(move):
     script.close()
     return script.name
 
+#Fonction rajouter des lignes dans un script
 def Addline(script, move):
     script = open(script, "a")
     line = move

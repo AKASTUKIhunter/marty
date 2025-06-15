@@ -1,5 +1,5 @@
 
-
+#Fonction création de script
 def NewScript(coordinates):
     script = open("scriptABS.dance", 'wt')
     line = coordinates
@@ -7,6 +7,7 @@ def NewScript(coordinates):
     script.close()
     return script.name
 
+#Fonction rajouter des lignes dans un script
 def Addline(script, coordinates):
     script = open(script, "a")
     line = coordinates

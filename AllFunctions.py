@@ -78,3 +78,31 @@ def get_battery(marty):
     status = marty.get_power_status()
     battery_remaining = status['battRemainCapacityPercent']
     print("Batterie restante: ", battery_remaining, "%")
+
+
+#Fonction pour traverser des cases en marchant
+def WalkCase(marty,nb_cases):
+    marty.get_ready()
+    for i in range(0,nb_cases):
+        marty.walk(12, 'auto', 0,15,1500,None)
+    marty.stand_straight()
+
+#Focntion pour traverser des cases en reculant
+def MoonwalkCase(marty,nb_cases):
+    marty.get_ready()
+    for i in range(0,nb_cases):
+        marty.walk(12, 'auto', 0,-15,1500,None)
+
+#Fonction pour traverser des cases en sidestep gauche
+def SideStepCaseG(marty,nb_cases):
+    marty.get_ready()
+    for i in range(0,nb_cases):
+        marty.sidestep('left', 6, 35, 1000)
+        marty.stand_straight()
+
+#Fonction pour traverser des cases en sidestep droit
+def SideStepCaseD(marty,nb_cases):
+    marty.get_ready()
+    for i in range(0,nb_cases):
+        marty.sidestep('right', 6, 35, 1000)
+        marty.stand_straight()
