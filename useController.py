@@ -1,8 +1,7 @@
 import XboxController
-from connect import MartyConnection
 
 class ControllerControl:
-    def __init__(self, martyConnector: MartyConnection):
+    def __init__(self, martyConnector):
         self.martyConnector = martyConnector
         self.controller = XboxController.XboxController()
 

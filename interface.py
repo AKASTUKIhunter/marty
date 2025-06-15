@@ -285,9 +285,9 @@ class MainWindow(QMainWindow):
         button_kick_right.setGeometry(770, 200, 130, 70)
         button_kick_right.clicked.connect(lambda: self.handle_button_click("kick_right"))
 
-        button_create_feel = QPushButton("Create Feel", self)
+        button_create_feel = QPushButton("Create .feel", self)
         button_create_feel.setStyleSheet('QPushButton {background-color: #03b8ff; color: black; font-size: 13px;}')
-        button_create_feel.setGeometry(20, 500, 135, 30)
+        button_create_feel.setGeometry(175, 500, 135, 30)
         button_create_feel.clicked.connect(lambda: self.showNewWindow())
 
         GUI_controller.setChecked(True)  # Set GUI as default controller
@@ -414,21 +414,20 @@ class FeelsCreatorWindow(QWidget):
         combo_layout = QHBoxLayout()
 
         self.couleur = QComboBox()
-        self.couleur.addItems(["green","pink","cyan","red", "blue","yellow","black","ground"])
+        self.couleur.addItems(["red", "green", "blue", "yellow", "purple", "pink", "black"])
 
         self.feel = QComboBox()
         self.feel.addItems(["angry", "wide", "normal", "wiggle", "excited"])
 
         self.eyes = QComboBox()
         self.eyes.addItems([
-            "#FFFFFF",  # white
             "#FF0000",  # red
+            "#00FF00",  # green
             "#0000FF",  # blue
             "#FFFF00",  # yellow
-            "#00FF00",  # green
             "#FFC0CB",  # pink
             "#800080",  # purple
-            "#FFA500"   # orange
+            "#000000",  # black
         ])
 
         combo_layout.addWidget(QLabel("Cell Color:"))

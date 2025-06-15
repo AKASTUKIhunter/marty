@@ -1,9 +1,8 @@
 
 from pynput.keyboard import Key, Listener
-from connect import MartyConnection
 
 class KeyboardControl:
-    def __init__(self, martyConnector: MartyConnection):
+    def __init__(self, martyConnector):
         self.martyConnector = martyConnector
 
     def on_press(self, key):

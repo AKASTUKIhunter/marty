@@ -58,7 +58,7 @@ class MartyConnection:
 
     def calibrateColors(self, button: QPushButton):
         if hasattr(self, 'marty'):
-            colors = ["green", "cyan", "red", "blue", "yellow", "purple"]
+            colors = ["red", "green", "blue", "yellow", "purple", "black", "pink"]
             # Use self.calibration to persist calibration data
             calibration = self.calibration
 

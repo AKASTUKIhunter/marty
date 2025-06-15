@@ -6,35 +6,11 @@
 #     "blue":[18,159],
 #     "yellow":[149,180],
 #     "black":[13,31],
-#     "ground":[80,98],
 # }
 
 marge = 10
 
 def get_color(color,IR, calibration):
-    c="green"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    c="pink"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    c="cyan"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    c="red"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    c="blue"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    c="yellow"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    c="black"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-    
-    c="ground"
-    if ((color<=calibration[c][0]+marge and color>=calibration[c][0]-marge) and (IR<=calibration[c][1]+marge and IR>=calibration[c][1]-marge)):
-        return c
-
+    for c in calibration.keys():
+        if ((color <= calibration[c][0] + marge and color >= calibration[c][0] - marge) and (IR <= calibration[c][1] + marge and IR >= calibration[c][1] - marge)):
+            return c
