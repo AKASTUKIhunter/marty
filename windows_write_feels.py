@@ -96,7 +96,7 @@ class Fenetre(QWidget):
         yeux = self.eyes.currentText()
 
         add_line(self.script_name, couleur, humeur, yeux)
-        self.retour.setText(f"✅ Ligne ajoutée à {self.script_name} : {couleur};{humeur};{yeux}")
+        self.retour.setText(f" Ligne ajoutée à {self.script_name} : {couleur};{humeur};{yeux}")
 
 # Fenêtre principale avec bouton pour ouvrir la fenêtre secondaire
 class FenetrePrincipale(QWidget):
