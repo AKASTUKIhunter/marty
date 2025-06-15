@@ -22,5 +22,7 @@ def detect_obs(marty):
         print("Marti est safe")
         marty.eyes("wiggle", 1000)
 
-# detect_obs(marty)
-# marty.close()
+
+#test
+detect_obs(marty)
+marty.close()
