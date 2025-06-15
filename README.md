@@ -24,3 +24,20 @@ correspondre à plusieurs pas
 * Pouvoir écrire des fichiers .feel, .dance (en séquentiel SEQ)
 * Pour les groupes de 4 personnes
 * Lecture et écriture des fichiers .dance en absolu
+
+
+
+
+
+
+| Nom de la couleur | Code HEX  |
+| ----------------- | --------- |
+| white             | `#FFFFFF` |
+| red               | `#FF0000` |
+| blue              | `#0000FF` |
+| yellow            | `#FFFF00` |
+| green             | `#00FF00` |
+| teal              | `#008080` |
+| pink              | `#FFC0CB` |
+| purple            | `#800080` |
+| orange            | `#FFA500` |
