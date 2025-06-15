@@ -3,16 +3,15 @@ import json
 from martypy import MartyConnectException
 from colorDetection import get_color
 from feelScraper import FeelScraper
+import movement
 from useController import ControllerControl
 from useKeyboard import KeyboardControl
-from eyes import moveEyes
 from PyQt6.QtWidgets import QPushButton
 import os
 
 class MartyConnection:
     def __init__(self):
         self.ip: str
-        self.marty: Marty
         self.controller: ControllerControl
         self.keyboard: KeyboardControl
         self.color: str
@@ -38,14 +37,16 @@ class MartyConnection:
             print(f"Unexpected error while connecting to Marty at {ip}: {e}")
 
     def walk(self, number_of_steps: int, marty):
-        step_speed = 1000
-        length_step = 15
-        for i in range(0, number_of_steps):
-            marty.walk(1, "left", 0, length_step, step_speed)
-            marty.walk(1, "right", 0, length_step, step_speed)
-        marty.stand_straight()
-        self.feel()
-
+        try:
+            step_speed = 1000
+            length_step = 15
+            for i in range(0, number_of_steps):
+                marty.walk(1, "left", 0, length_step, step_speed)
+                marty.walk(1, "right", 0, length_step, step_speed)
+            marty.stand_straight()
+            self.feel()
+        except Exception as e:
+            print(f"Error while walking: {e}")
     
     def feel(self):
         try:
@@ -62,40 +63,45 @@ class MartyConnection:
             if detected_color in feels.keys():
                 mood = feels[detected_color]['mood']
                 print(feels[detected_color])
-                moveEyes(mood, self.marty)
+                movement.moveEyes(mood, self.marty)
                 self.marty.disco_color(feels[detected_color]['color'], self.marty.Disco.EYES, api="led")
             
         except Exception as e:
             print(f"Error while feeling: {e}")
-            self.marty.eyes("normal", 1000)
 
     def sidestep(self, side):
-        self.marty.sidestep(side)
-        self.feel()
+        try:
+            self.marty.sidestep(side)
+            self.feel()
+        except Exception as e:
+            print(f"Error while sidestepping: {e}")
 
     def calibrateColors(self, button: QPushButton):
-        colors = ["green", "cyan", "red", "blue", "yellow", "purple"]
-        # Use self.calibration to persist calibration data
-        calibration = self.calibration
+        if hasattr(self, 'marty'):
+            colors = ["green", "cyan", "red", "blue", "yellow", "purple"]
+            # Use self.calibration to persist calibration data
+            calibration = self.calibration
 
-        # Disconnect previous connections to avoid multiple triggers
-        try:
-            button.clicked.disconnect()
-        except Exception:
-            print("No previous connection to disconnect")
+            # Disconnect previous connections to avoid multiple triggers
+            try:
+                button.clicked.disconnect()
+            except Exception:
+                print("No previous connection to disconnect")
 
-        if button.text() == "Calibration" or button.text() == "Calibrate colors again":
-            button.setText("Calibrate {}".format(colors[0]))
-            button.clicked.connect(lambda: self.changeButton(colors[0], calibration, button)) # type: ignore
-        elif (button.text().startswith("Calibrate ") and
-              button.text().split(" ")[1].lower() in colors and colors.index(button.text().split(" ")[1].lower()) < len(colors) - 1):
-            current_color = button.text().split(" ")[1].lower()
-            button.setText("Calibrate {}".format(colors[colors.index(current_color) + 1]))
-            button.clicked.connect(lambda: self.changeButton(colors[colors.index(current_color) + 1], calibration, button)) # type: ignore
-        elif button.text() == "Calibrate {}".format(colors[-1]):
-            self.saveCalibrationToFile()
-            button.setText("Calibrate colors again")
-            button.clicked.connect(lambda: self.calibrateColors(button))
+            if button.text() == "Calibration" or button.text() == "Calibrate colors again":
+                button.setText("Calibrate {}".format(colors[0]))
+                button.clicked.connect(lambda: self.changeButton(colors[0], calibration, button)) # type: ignore
+            elif (button.text().startswith("Calibrate ") and
+                button.text().split(" ")[1].lower() in colors and colors.index(button.text().split(" ")[1].lower()) < len(colors) - 1):
+                current_color = button.text().split(" ")[1].lower()
+                button.setText("Calibrate {}".format(colors[colors.index(current_color) + 1]))
+                button.clicked.connect(lambda: self.changeButton(colors[colors.index(current_color) + 1], calibration, button)) # type: ignore
+            elif button.text() == "Calibrate {}".format(colors[-1]):
+                self.saveCalibrationToFile()
+                button.setText("Calibrate colors again")
+                button.clicked.connect(lambda: self.calibrateColors(button))
+        else:
+            print("Marty is not connected. Cannot calibrate colors.")
 
     def saveCalibrationToFile(self, filename: str = "calibration.json"):
         with open(filename, 'w') as file:
@@ -122,91 +128,123 @@ class MartyConnection:
         self.calibrateColors(button)
 
     def turn(self, side):
-        self.marty.stand_straight()
-        angle = 20
-        length_step = 8
-        step_speed = 1500
+        try:
+            self.marty.stand_straight()
+            angle = 20
+            length_step = 8
+            step_speed = 1500
 
-        self.marty.stand_straight()
-        if side == "left":
-            for i in range(0, 2):
-                self.marty.walk(1, "right", -angle, length_step, step_speed)
-                self.marty.walk(1, "left", -angle, length_step, step_speed)
-        elif side == "right":
-            for i in range(0, 2):
-                self.marty.walk(1, "left", -angle, length_step, step_speed)
-                self.marty.walk(1, "right", -angle, length_step, step_speed)
-        self.marty.stand_straight()
+            self.marty.stand_straight()
+            if side == "left":
+                for i in range(0, 2):
+                    self.marty.walk(1, "right", -angle, length_step, step_speed)
+                    self.marty.walk(1, "left", -angle, length_step, step_speed)
+            elif side == "right":
+                for i in range(0, 2):
+                    self.marty.walk(1, "left", -angle, length_step, step_speed)
+                    self.marty.walk(1, "right", -angle, length_step, step_speed)
+            self.marty.stand_straight()
+        except Exception as e:
+            print(f"Error while turning: {e}")
 
     def walk_backwards(self, number_of_steps):
-        speed = 1000
-        length_step = 15
+        try:
+            speed = 1000
+            length_step = 15
 
-        self.marty.stand_straight()
-        for i in range(0, number_of_steps):
-            self.marty.walk(1, "left", 0, -length_step, speed)
-            self.marty.walk(1, "right", 0, -length_step, speed)
-        self.marty.stand_straight()
+            self.marty.stand_straight()
+            for i in range(0, number_of_steps):
+                self.marty.walk(1, "left", 0, -length_step, speed)
+                self.marty.walk(1, "right", 0, -length_step, speed)
+            self.marty.stand_straight()
+        except Exception as e:
+            print(f"Error while walking backwards: {e}")
 
     def moveArms(self, input1_bras_gauche, input2_bras_droit):
-        self.marty.arms(input1_bras_gauche, input2_bras_droit, 1000, None)
+        try:
+            self.marty.arms(input1_bras_gauche, input2_bras_droit, 1000, None)
+        except Exception as e:
+            print(f"Error while moving arms: {e}")
 
     # Fonction de détection d'obstacle
     def detect_obs(self):
-        if self.marty.foot_obstacle_sensed('RightIRFoot'):
-            print("Ya un obstacle")
-        else:
-            print("Marti est safe")
-            self.marty.eyes("wiggle", 1000)
+        try:    
+            if self.marty.foot_obstacle_sensed('RightIRFoot'):
+                print("Ya un obstacle")
+            else:
+                print("Marti est safe")
+                self.marty.eyes("wiggle", 1000)
+        except Exception as e:
+            print(f"Error while detecting obstacle: {e}")
 
     # Kick Left
     def kickLeft(self):
-        self.marty.kick('left', 0, 2000, None)
+        try:
+            self.marty.kick('left', 0, 2000, None)
+        except Exception as e:
+            print(f"Error while kicking left: {e}")
 
     # Kick Right
     def kickRight(self):
-        self.marty.kick('right', 0, 2000, None)
+        try:
+            self.marty.kick('right', 0, 2000, None)
+        except Exception as e:
+            print(f"Error while kicking right: {e}")
 
     # Fonction de récupération du niveau de batterie
     def get_battery(self):
-        status = self.marty.get_power_status()
-        battery_remaining = status['battRemainCapacityPercent']
-        print("Batterie restante: ", battery_remaining, "%")
+        try:
+            status = self.marty.get_power_status()
+            battery_remaining = status['battRemainCapacityPercent']
+            print("Batterie restante: ", battery_remaining, "%")
+            return battery_remaining
+        except Exception as e:
+            print(f"Error while getting battery status: {e}")
 
   #Fonction pour traverser des cases en marchant
     def WalkCase(self,nb_cases):
-        self.marty.get_ready()
-        for i in range(0,nb_cases):
-            self.marty.walk(12, 'auto', 0,15,1500,None)
-            self.marty.stand_straight()
-        
-        self.feel()
+        try:
+            self.marty.get_ready()
+            for i in range(0,nb_cases):
+                self.marty.walk(12, 'auto', 0,15,1500,None)
+                self.marty.stand_straight()
+            
+            self.feel()
+        except Exception as e:
+            print(f"Error while walking case: {e}")
 
     def MoonwalkCase(self,nb_cases):
-        self.marty.get_ready()
-        for i in range(0,nb_cases):
-            self.marty.walk(12, 'auto', 0,-15,1500,None)
-            self.marty.stand_straight()
-        
-        self.feel()
+        try:
+            self.marty.get_ready()
+            for i in range(0,nb_cases):
+                self.marty.walk(12, 'auto', 0,-15,1500,None)
+                self.marty.stand_straight()
+            
+            self.feel()
+        except Exception as e:
+            print(f"Error while moonwalking case: {e}")
 
     #Fonction pour traverser des cases en sidestep gauche
     def SideStepCaseG(self,nb_cases):
-        self.marty.get_ready()
-        for i in range(0,nb_cases):
-            self.marty.sidestep('left', 6, 35, 1000)
-            self.marty.stand_straight()
-        
-        self.feel()
+        try:
+            self.marty.get_ready()
+            for i in range(0,nb_cases):
+                self.marty.sidestep('left', 6, 35, 1000)
+                self.marty.stand_straight()
+            self.feel()
+        except Exception as e:
+            print(f"Error while sidestepping left: {e}")
 
     #Fonction pour traverser des cases en sidestep droit
     def SideStepCaseD(self,nb_cases):
-        self.marty.get_ready()
-        for i in range(0,nb_cases):
-            self.marty.sidestep('right', 6, 35, 1000)
-            self.marty.stand_straight()
-        
-        self.feel()
+        try:
+            self.marty.get_ready()
+            for i in range(0,nb_cases):
+                self.marty.sidestep('right', 6, 35, 1000)
+                self.marty.stand_straight()
+            self.feel()
+        except Exception as e:
+            print(f"Error while sidestepping right: {e}")
 
 
 
@@ -313,20 +351,23 @@ class MartyConnection:
 
     # Fonction qui lit et exécute les fichiers .dance
     def lecture_dance(self,name):
-        name_file = name + ".dance"
-        with open(name_file, "r", encoding="utf-8") as file:
-            type=file.readline()
-            print("type de fichier :",type[:3])
-            taille_grille=int(type[-2])
-            pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]
-            print (pos) #la position de départ étant le centre de la grille 
-            
-            
-            if(type[:3]=="SEQ"):
-                self.lecture_dance_seq(name)
-            
-            elif (type[:3]=="ABS"):
-                self.lecture_dance_abs(name)
+        try:
+            name_file = name + ".dance"
+            with open(name_file, "r", encoding="utf-8") as file:
+                type=file.readline()
+                print("type de fichier :",type[:3])
+                taille_grille=int(type[-2])
+                pos=[round(taille_grille/2)-1,round(taille_grille/2)-1]
+                print (pos) #la position de départ étant le centre de la grille 
+                
+                
+                if(type[:3]=="SEQ"):
+                    self.lecture_dance_seq(name)
+                
+                elif (type[:3]=="ABS"):
+                    self.lecture_dance_abs(name)
+        except FileNotFoundError:
+            print(f"Erreur lors de la lecture: Le fichier {name_file} n'existe pas.")
     
 
 
@@ -338,6 +379,9 @@ class MartyConnection:
                 script.write("SEQ 3\n")
             script.write(move + "\n")
 
-
-
-
+    def disconnect(self):
+        if hasattr(self, 'marty'):
+            self.marty.close()
+            print("Disconnected from Marty")
+        else:
+            print("No Marty connection to disconnect")
